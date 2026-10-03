@@ -119,10 +119,15 @@ src/
     caregiver/Layout.tsx       # nawigacja dolna, pełnoekranowy alert POMOC, dźwięk alertów
     caregiver/Dashboard.tsx    # "/opiekun" - alerty (pominięte dawki, recepty), oś dnia, wizyta
     caregiver/Medications.tsx  # "/opiekun/leki" - import IKP, zapas leków, "Bezpłatny 65+"
-    caregiver/Calendar.tsx     # "/opiekun/kalendarz" - 14 dni: wizyty, wykup recept
+    caregiver/Calendar.tsx     # "/opiekun/kalendarz" - widoki Dzień/3 dni/Tydzień/Miesiąc (styl Google/Proton)
     caregiver/Doctors.tsx      # "/opiekun/lekarze" - tel: + dodanie wizyty
     caregiver/Programs.tsx     # "/opiekun/programy" - karty programów ze źródłami
     demo/SplitView.tsx         # "/demo" - dwa telefony (iframe) + panel czasu/resetu
+  components/calendar/
+    events.ts                  # budowa wydarzeń (dawki grupowane po godzinie, wizyty, wykup/koniec leku) + układ nachodzących
+    TimeGrid.tsx               # siatka godzinowa (1/3/7 dni), wiersz "cały dzień", linia "teraz"
+    MonthGrid.tsx              # widok miesiąca, klik w dzień -> widok dnia
+    EventSheet.tsx, styles.ts  # szczegóły wydarzenia (bottom sheet), kolory wg typu/statusu
   lib/
     types.ts                   # typy = tabele SQL
     config.ts                  # env, DEMO_SENIOR_ID, PHARMACY_SEARCH_URL
