@@ -1,76 +1,106 @@
-import { addDays, isBefore, isSameDay, parseISO, startOfDay } from 'date-fns'
-import { CalendarClock, Pill, ShoppingCart } from 'lucide-react'
+import { useState } from 'react'
+import { addDays, addMonths, format, startOfDay, startOfWeek } from 'date-fns'
+import { pl } from 'date-fns/locale'
+import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { useData } from '../../lib/data'
-import { config } from '../../lib/config'
-import { forecastStock } from '../../lib/stock'
-import { fmtDay, fmtTime } from '../../lib/format'
+import { buildEvents, type CalEvent } from '../../components/calendar/events'
+import TimeGrid from '../../components/calendar/TimeGrid'
+import MonthGrid, { monthRange } from '../../components/calendar/MonthGrid'
+import EventSheet from '../../components/calendar/EventSheet'
 
-const DAYS_AHEAD = 14
+type View = 'day' | '3day' | 'week' | 'month'
 
-interface CalEvent {
-  at: Date
-  kind: 'appointment' | 'refill' | 'runout'
-  title: string
-  detail?: string
+const VIEWS: { id: View; label: string }[] = [
+  { id: 'day', label: 'Dzień' },
+  { id: '3day', label: '3 dni' },
+  { id: 'week', label: 'Tydzień' },
+  { id: 'month', label: 'Miesiąc' },
+]
+const VIEW_KEY = 'mojsenior:calendar-view'
+
+function loadView(): View {
+  try {
+    const v = localStorage.getItem(VIEW_KEY)
+    if (v && VIEWS.some((x) => x.id === v)) return v as View
+  } catch {
+    // brak localStorage - domyślny widok
+  }
+  return '3day'
+}
+
+function visibleDays(view: View, anchor: Date): Date[] {
+  if (view === 'day') return [anchor]
+  if (view === '3day') return [0, 1, 2].map((i) => addDays(anchor, i))
+  const monday = startOfWeek(anchor, { weekStartsOn: 1 })
+  return Array.from({ length: 7 }, (_, i) => addDays(monday, i))
 }
 
 export default function Calendar() {
   const { snap, current } = useData()
-  const from = startOfDay(current)
-  const to = addDays(from, DAYS_AHEAD)
-  const dosesPerDay = snap.medications.reduce((n, m) => n + m.times.length, 0)
+  const [view, setView] = useState<View>(loadView)
+  const [anchor, setAnchor] = useState(() => startOfDay(current))
+  const [selected, setSelected] = useState<CalEvent | null>(null)
 
-  const events: CalEvent[] = [
-    ...snap.appointments.map((a) => ({
-      at: parseISO(a.starts_at),
-      kind: 'appointment' as const,
-      title: `Wizyta: ${snap.doctors.find((d) => d.id === a.doctor_id)?.name ?? 'lekarz'}`,
-      detail: [a.place, a.note].filter(Boolean).join(' · '),
-    })),
-    ...snap.medications.flatMap((m) => {
-      const f = forecastStock(m, current, config.refillWarnDays)
-      return [
-        { at: f.refillBy, kind: 'refill' as const, title: `Wykup receptę: ${m.name}` },
-        { at: f.runoutDate, kind: 'runout' as const, title: `Koniec opakowania: ${m.name}` },
-      ]
-    }),
-  ]
-    .map((e) => (isBefore(e.at, from) && e.kind === 'refill' ? { ...e, at: from, detail: 'Termin minął - wykup jak najszybciej' } : e))
-    .filter((e) => !isBefore(e.at, from) && isBefore(e.at, to))
-    .sort((a, b) => a.at.getTime() - b.at.getTime())
+  const changeView = (v: View) => {
+    setView(v)
+    try {
+      localStorage.setItem(VIEW_KEY, v)
+    } catch {
+      // ignorujemy
+    }
+  }
 
-  const days = Array.from({ length: DAYS_AHEAD }, (_, i) => addDays(from, i))
+  const days = visibleDays(view, anchor)
+  const range = view === 'month' ? monthRange(anchor) : { from: days[0], to: days[days.length - 1] }
+  const events = buildEvents(snap, current, range.from, range.to)
+
+  const step = (dir: 1 | -1) => {
+    if (view === 'month') setAnchor((a) => addMonths(a, dir))
+    else setAnchor((a) => addDays(a, dir * (view === 'day' ? 1 : view === '3day' ? 3 : 7)))
+  }
+
+  const pickDay = (d: Date) => {
+    setAnchor(startOfDay(d))
+    changeView('day')
+  }
+
+  const title = format(view === 'month' ? anchor : days[0], 'LLLL yyyy', { locale: pl })
 
   return (
-    <div className="flex flex-col gap-3">
-      {days.map((day) => {
-        const dayEvents = events.filter((e) => isSameDay(e.at, day))
-        if (dayEvents.length === 0 && !isSameDay(day, from)) return null
-        return (
-          <section key={day.toISOString()} className="rounded-2xl bg-white p-4 shadow-sm">
-            <h2 className="mb-2 font-bold first-letter:uppercase">{fmtDay(day)}</h2>
-            <ul className="flex flex-col gap-2 text-sm">
-              {dosesPerDay > 0 && (
-                <li className="flex items-center gap-2 text-muted">
-                  <Pill size={16} /> {dosesPerDay} dawek leków
-                </li>
-              )}
-              {dayEvents.map((e, i) => (
-                <li key={i} className="flex gap-2">
-                  {e.kind === 'appointment' ? <CalendarClock size={16} className="mt-0.5 text-primary" /> : <ShoppingCart size={16} className="mt-0.5 text-warning" />}
-                  <div>
-                    <p className="font-semibold">
-                      {e.kind === 'appointment' && `${fmtTime(e.at)} · `}
-                      {e.title}
-                    </p>
-                    {e.detail && <p className="text-muted">{e.detail}</p>}
-                  </div>
-                </li>
-              ))}
-            </ul>
-          </section>
-        )
-      })}
+    <div className="-m-4 flex h-[calc(100dvh-8.75rem)] flex-col">
+      <div className="flex flex-col gap-2 border-b bg-white px-3 py-2">
+        <div className="flex items-center gap-1">
+          <h1 className="flex-1 text-lg font-bold first-letter:uppercase">{title}</h1>
+          <button onClick={() => setAnchor(startOfDay(current))} className="rounded-lg border px-3 py-1 text-sm font-semibold">
+            Dziś
+          </button>
+          <button onClick={() => step(-1)} aria-label="Wstecz" className="rounded-full p-1.5 hover:bg-slate-100">
+            <ChevronLeft size={20} />
+          </button>
+          <button onClick={() => step(1)} aria-label="Dalej" className="rounded-full p-1.5 hover:bg-slate-100">
+            <ChevronRight size={20} />
+          </button>
+        </div>
+        <div className="grid grid-cols-4 rounded-lg bg-slate-100 p-0.5 text-sm">
+          {VIEWS.map((v) => (
+            <button
+              key={v.id}
+              onClick={() => changeView(v.id)}
+              className={`rounded-md py-1 font-semibold ${view === v.id ? 'bg-white text-primary shadow-sm' : 'text-muted'}`}
+            >
+              {v.label}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {view === 'month' ? (
+        <MonthGrid anchor={anchor} events={events} current={current} onPickDay={pickDay} />
+      ) : (
+        <TimeGrid days={days} events={events} current={current} onSelect={setSelected} onPickDay={pickDay} />
+      )}
+
+      {selected && <EventSheet event={selected} onClose={() => setSelected(null)} />}
     </div>
   )
 }
