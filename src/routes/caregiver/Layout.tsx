@@ -1,13 +1,13 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { NavLink, Outlet } from 'react-router-dom'
-import { CalendarDays, HandHeart, House, Phone, Pill, Video } from 'lucide-react'
+import { CalendarDays, HandHeart, House, Pill, Video } from 'lucide-react'
 import { useData } from '../../lib/data'
 import { db } from '../../lib/db'
 import { now } from '../../lib/clock'
-import { config } from '../../lib/config'
 import { playAlert } from '../../lib/alert'
 import { firstName } from '../../lib/format'
 import { Logo, StatusBar } from '../../components/ui'
+import VideoCall from '../../components/VideoCall'
 
 // Lekarze są dostępni z kafelka na Pulpicie / w Lekach (układ z Figmy)
 const nav = [
@@ -20,7 +20,19 @@ const nav = [
 export default function CaregiverLayout() {
   const { snap, missed } = useData()
   const help = snap.helpRequests[0]
+  const [inCall, setInCall] = useState(false)
+  const seniorName = snap.senior ? firstName(snap.senior.name) : 'Senior'
   useAlertSound(snap.helpRequests.length + missed.length)
+
+  // rozmowa kończy się też wtedy, gdy senior rozłączy się u siebie
+  useEffect(() => {
+    if (!help) setInCall(false)
+  }, [help])
+
+  const endCall = () => {
+    setInCall(false)
+    db.resolveHelpRequests(now().toISOString())
+  }
 
   return (
     <div className="mx-auto flex min-h-full max-w-md flex-col bg-white pb-28">
@@ -51,25 +63,25 @@ export default function CaregiverLayout() {
       </nav>
       </div>
 
-      {help && (
+      {help && inCall && (
+        <div className="fixed inset-0 z-50 mx-auto flex max-w-md flex-col bg-navy">
+          <StatusBar dark />
+          <VideoCall peerName={seniorName} onEnd={endCall} />
+        </div>
+      )}
+
+      {help && !inCall && (
         <div className="fixed inset-0 z-50 flex flex-col items-center justify-center gap-6 bg-danger p-8 text-center text-white">
           <span className="h-20 w-20 animate-ping rounded-full bg-white/50" />
-          <p className="text-3xl font-bold">{snap.senior ? firstName(snap.senior.name) : 'Senior'} prosi o pomoc!</p>
+          <p className="text-3xl font-bold">{seniorName} prosi o pomoc!</p>
           <div className="grid w-full max-w-xs gap-3">
-            {config.dailyRoomUrl && (
-              <a href={config.dailyRoomUrl} target="_blank" rel="noreferrer" className="flex items-center justify-center gap-2 rounded-2xl bg-white py-4 text-xl font-bold text-danger">
-                <Video /> Dołącz do wideo
-              </a>
-            )}
-            <button onClick={() => db.resolveHelpRequests(now().toISOString())} className="rounded-2xl border-2 border-white py-3 font-semibold">
+            <button onClick={() => setInCall(true)} className="flex items-center justify-center gap-2 rounded-[10px] bg-white py-4 text-xl font-bold text-danger">
+              <Video /> Odbierz wideo
+            </button>
+            <button onClick={endCall} className="rounded-[10px] border-2 border-white py-3 font-semibold">
               Zamknij alert
             </button>
           </div>
-          {!config.dailyRoomUrl && (
-            <p className="flex items-center gap-2 text-sm text-white/80">
-              <Phone size={16} /> Ustaw VITE_DAILY_ROOM_URL, żeby włączyć wideo
-            </p>
-          )}
         </div>
       )}
     </div>
