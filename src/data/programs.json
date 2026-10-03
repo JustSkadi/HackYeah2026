@@ -1,0 +1,47 @@
+[
+  {
+    "id": "leki-65",
+    "title": "Bezpłatne leki 65+",
+    "min_age": 65,
+    "sex": null,
+    "summary": "Leki z ministerialnego wykazu są bezpłatne dla osób 65+. Lista jest aktualizowana co kwartał.",
+    "action": "Poproś lekarza o receptę z oznaczeniem S.",
+    "source_name": "gov.pl",
+    "source_url": "https://www.gov.pl/web/gov/korzystaj-z-bezplatnych-lekow-75",
+    "verified_at": "2026-10-03"
+  },
+  {
+    "id": "moje-zdrowie",
+    "title": "Moje Zdrowie - bilans zdrowia",
+    "min_age": 20,
+    "sex": null,
+    "summary": "Bezpłatne badania i Indywidualny Plan Zdrowotny. Osoby 50+ mogą korzystać co 3 lata.",
+    "action": "Wypełnij ankietę w IKP i umów badania w przychodni POZ.",
+    "source_name": "gov.pl",
+    "source_url": "https://www.gov.pl/web/psse-choszczno/dbaj-o-siebie-z-programem-moje-zdrowie",
+    "verified_at": "2026-10-03"
+  },
+  {
+    "id": "grypa",
+    "title": "Szczepienie przeciw grypie",
+    "min_age": 65,
+    "sex": null,
+    "_todo": "Zweryfikować zasady 65+ / 75+ (bezpłatna vs. refundowana) na sezon 2026/2027 i podmienić summary.",
+    "summary": "Seniorzy mogą zaszczepić się w ramach refundacji. Kwalifikacji może dokonać farmaceuta w aptece.",
+    "action": "Zapytaj w aptece lub przychodni POZ.",
+    "source_name": "pacjent.gov.pl",
+    "source_url": "https://pacjent.gov.pl/print/pdf/node/3246",
+    "verified_at": "2026-10-03"
+  },
+  {
+    "id": "bon-senioralny",
+    "title": "Bon senioralny",
+    "min_age": 65,
+    "sex": null,
+    "summary": "Usługi opiekuńcze w domu seniora opłacane przez gminę. Obowiązuje kryterium dochodowe. Start w gminach: IV kwartał 2026.",
+    "action": "Zapytaj w ośrodku pomocy społecznej w swojej gminie.",
+    "source_name": "gazetaprawna.pl",
+    "source_url": "https://www.gazetaprawna.pl/twoje-prawo/swiadczenia/artykuly/11282012,bon-senioralny-2026-dla-kogo-kryteria-zasady-2150-zl.html",
+    "verified_at": "2026-10-03"
+  }
+]
