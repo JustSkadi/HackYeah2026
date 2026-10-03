@@ -45,7 +45,7 @@ export default function MonthGrid({ anchor, events, current, onPickDay }: Props)
             <button
               key={d.toISOString()}
               onClick={() => onPickDay(d)}
-              className={`flex min-h-[4.5rem] min-w-0 flex-col items-stretch gap-0.5 border-b border-l p-0.5 text-left ${isSameMonth(d, anchor) ? '' : 'bg-slate-50 text-muted/60'}`}
+              className={`flex min-h-[4.5rem] min-w-0 flex-col items-stretch gap-0.5 border-b border-l p-0.5 text-left ${isSameMonth(d, anchor) ? '' : 'bg-primary-soft/20 text-muted/60'}`}
             >
               <span className="flex items-center justify-center gap-0.5">
                 <span className={`grid h-6 w-6 place-items-center rounded-full text-xs ${today ? 'bg-primary font-semibold text-white' : ''}`}>{format(d, 'd')}</span>

@@ -22,7 +22,7 @@ export default function SplitView() {
   }
 
   return (
-    <div className="flex min-h-full flex-col gap-6 bg-slate-200 p-4 lg:flex-row lg:items-start lg:justify-center lg:p-8">
+    <div className="flex min-h-full flex-col gap-6 bg-primary-soft/40 p-4 lg:flex-row lg:items-start lg:justify-center lg:p-8">
       <Phone title="Senior" src="/senior" />
       <Phone title="Opiekun" src="/opiekun" />
 

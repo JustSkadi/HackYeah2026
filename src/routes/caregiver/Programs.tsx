@@ -25,7 +25,7 @@ export default function ProgramsPage() {
         Dopasowane do: {sex === 'F' ? 'kobieta' : sex === 'M' ? 'mężczyzna' : 'senior'}, {age} lat
       </p>
       {matching.map((p) => (
-        <article key={p.id} className="rounded-2xl bg-white p-4 shadow-sm">
+        <article key={p.id} className="card">
           <h2 className="font-bold">{p.title}</h2>
           <p className="mt-1">{p.summary}</p>
           <p className="mt-2 text-sm font-semibold text-primary">{p.action}</p>

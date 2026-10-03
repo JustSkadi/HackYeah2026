@@ -80,7 +80,7 @@ export default function TimeGrid({ days, events, current, onSelect, onPickDay }:
             return (
               <div key={d.toISOString()} className={`relative border-l ${today ? 'bg-primary-soft/30' : ''}`}>
                 {HOURS.map((h) => (
-                  <div key={h} className="absolute inset-x-0 border-t border-slate-100" style={{ top: h * HOUR_PX }} />
+                  <div key={h} className="absolute inset-x-0 border-t border-primary-soft/40" style={{ top: h * HOUR_PX }} />
                 ))}
 
                 {layoutDay(eventsOnDay(timed, d)).map(({ event, lane, lanes }) => {

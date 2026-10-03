@@ -18,7 +18,7 @@ export default function Doctors() {
         </button>
       )}
       {snap.doctors.length === 0 && (
-        <p className="rounded-2xl bg-white p-6 text-center text-muted shadow-sm">Lekarze pojawią się po imporcie z IKP albo po dodaniu ręcznie.</p>
+        <p className="card text-center text-muted">Lekarze pojawią się po imporcie z IKP albo po dodaniu ręcznie.</p>
       )}
       {snap.doctors.map((d) => (
         <DoctorCard key={d.id} doctor={d} />
@@ -64,7 +64,7 @@ function DoctorForm({ title, doctor, onDone }: { title: string; doctor?: Doctor;
   }
 
   return (
-    <div className="flex flex-col gap-2 rounded-2xl bg-white p-4 shadow-sm">
+    <div className="flex flex-col gap-2 card">
       <h2 className="font-bold">{title}</h2>
       <input placeholder="Imię i nazwisko, np. Jan Kowalski" {...field('name')} />
       <input placeholder="Specjalizacja, np. okulista" {...field('specialty')} />
@@ -112,13 +112,13 @@ function DoctorCard({ doctor }: { doctor: Doctor }) {
   }
 
   return (
-    <article className="relative rounded-2xl bg-white p-4 shadow-sm">
+    <article className="relative card">
       <div className="flex items-start gap-2">
         <div className="min-w-0 flex-1">
           <h2 className="font-bold">{doctor.name}</h2>
           <p className="text-sm text-muted">{[doctor.specialty, doctor.clinic].filter(Boolean).join(' · ')}</p>
         </div>
-        <button onClick={() => setMenuOpen((o) => !o)} aria-label="Więcej opcji" className="-mr-2 -mt-1 rounded-full p-1.5 text-muted hover:bg-slate-100">
+        <button onClick={() => setMenuOpen((o) => !o)} aria-label="Więcej opcji" className="-mr-2 -mt-1 rounded-full p-1.5 text-muted hover:bg-primary-soft/40">
           <MoreVertical size={20} />
         </button>
       </div>
@@ -127,7 +127,7 @@ function DoctorCard({ doctor }: { doctor: Doctor }) {
         <>
           <div className="fixed inset-0 z-10" onClick={() => setMenuOpen(false)} />
           <div className="absolute right-3 top-11 z-20 w-40 overflow-hidden rounded-xl border bg-white text-sm shadow-lg">
-            <button onClick={() => pick('edit')} className="flex w-full items-center gap-2 px-3 py-2.5 hover:bg-slate-50">
+            <button onClick={() => pick('edit')} className="flex w-full items-center gap-2 px-3 py-2.5 hover:bg-primary-soft/20">
               <Pencil size={16} /> Edytuj
             </button>
             <button onClick={() => pick('confirmDelete')} className="flex w-full items-center gap-2 px-3 py-2.5 text-danger hover:bg-danger-soft">

@@ -25,7 +25,7 @@ export default function EventSheet({ event, onClose }: Props) {
             <h2 className="text-lg font-bold">{event.title}</h2>
             <p className="text-sm text-muted first-letter:uppercase">{when}</p>
           </div>
-          <button onClick={onClose} aria-label="Zamknij" className="rounded-full p-1 text-muted hover:bg-slate-100">
+          <button onClick={onClose} aria-label="Zamknij" className="rounded-full p-1 text-muted hover:bg-primary-soft/40">
             <X />
           </button>
         </div>
@@ -50,7 +50,7 @@ export default function EventSheet({ event, onClose }: Props) {
           <div className="mt-4 flex flex-col gap-1 text-sm">
             {event.doctor?.specialty && <p>{event.doctor.specialty}</p>}
             {event.appointment.place && <p className="text-muted">{event.appointment.place}</p>}
-            {event.appointment.note && <p className="mt-1 rounded-lg bg-slate-50 p-2">{event.appointment.note}</p>}
+            {event.appointment.note && <p className="mt-1 rounded-lg bg-primary-soft/20 p-2">{event.appointment.note}</p>}
             {event.doctor && (
               <a href={`tel:${event.doctor.phone}`} className="mt-3 flex items-center justify-center gap-2 rounded-xl bg-primary py-2.5 font-semibold text-white">
                 <Phone size={16} /> Zadzwoń do przychodni

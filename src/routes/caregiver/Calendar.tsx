@@ -67,21 +67,21 @@ export default function Calendar() {
   const title = format(view === 'month' ? anchor : days[0], 'LLLL yyyy', { locale: pl })
 
   return (
-    <div className="-m-4 flex h-[calc(100dvh-8.75rem)] flex-col">
+    <div className="flex h-[calc(100dvh-12rem)] flex-col overflow-hidden rounded-[10px] border">
       <div className="flex flex-col gap-2 border-b bg-white px-3 py-2">
         <div className="flex items-center gap-1">
           <h1 className="flex-1 text-lg font-bold first-letter:uppercase">{title}</h1>
           <button onClick={() => setAnchor(startOfDay(current))} className="rounded-lg border px-3 py-1 text-sm font-semibold">
             Dziś
           </button>
-          <button onClick={() => step(-1)} aria-label="Wstecz" className="rounded-full p-1.5 hover:bg-slate-100">
+          <button onClick={() => step(-1)} aria-label="Wstecz" className="rounded-full p-1.5 hover:bg-primary-soft/40">
             <ChevronLeft size={20} />
           </button>
-          <button onClick={() => step(1)} aria-label="Dalej" className="rounded-full p-1.5 hover:bg-slate-100">
+          <button onClick={() => step(1)} aria-label="Dalej" className="rounded-full p-1.5 hover:bg-primary-soft/40">
             <ChevronRight size={20} />
           </button>
         </div>
-        <div className="grid grid-cols-4 rounded-lg bg-slate-100 p-0.5 text-sm">
+        <div className="grid grid-cols-4 rounded-lg bg-primary-soft/40 p-0.5 text-sm">
           {VIEWS.map((v) => (
             <button
               key={v.id}

@@ -5,6 +5,7 @@ import { db } from '../../lib/db'
 import { now } from '../../lib/clock'
 import { canConfirm, hhmm } from '../../lib/doses'
 import { fmtDay, fmtTime } from '../../lib/format'
+import { Logo } from '../../components/ui'
 
 export default function SeniorToday() {
   const { todayDoses, current, snap } = useData()
@@ -13,15 +14,17 @@ export default function SeniorToday() {
 
   return (
     <main className="mx-auto flex min-h-full max-w-md flex-col bg-white pb-36 text-[22px]">
-      <header className="bg-primary px-6 pb-6 pt-8 text-white">
-        <p className="text-2xl first-letter:uppercase">{fmtDay(current)}</p>
-        <p className="text-6xl font-bold tabular-nums">{fmtTime(current)}</p>
+      <header className="flex flex-col items-center gap-2 px-5 pb-2 pt-6">
+        <Logo className="text-[34px]" />
+        <p className="text-xl text-navy">
+          <span className="first-letter:uppercase inline-block">{fmtDay(current)}</span> · <b className="tabular-nums">{fmtTime(current)}</b>
+        </p>
       </header>
 
-      <section className="flex flex-col gap-4 p-5">
-        <h1 className="text-3xl font-bold">Leki na dziś</h1>
+      <section className="flex flex-col gap-4 px-5 pt-4">
+        <h1 className="text-[28px] font-bold text-navy">Lekarstwa na dziś</h1>
         {todayDoses.length === 0 && (
-          <p className="rounded-2xl bg-slate-100 p-6 text-center text-muted">
+          <p className="rounded-[10px] bg-primary-soft/40 p-6 text-center text-muted">
             {snap.medications.length === 0 ? 'Opiekun jeszcze nie dodał leków.' : 'Na dziś nie ma więcej leków.'}
           </p>
         )}
@@ -30,12 +33,12 @@ export default function SeniorToday() {
         ))}
       </section>
 
-      <div className="fixed inset-x-0 bottom-0 mx-auto max-w-md bg-white/90 p-4 backdrop-blur">
+      <div className="fixed inset-x-0 bottom-0 mx-auto max-w-md bg-linear-to-t from-white from-70% to-white/0 px-5 pb-4 pt-6">
         <Link
           to="/senior/pomoc"
-          className="flex h-24 items-center justify-center gap-4 rounded-3xl bg-danger text-4xl font-bold text-white shadow-xl active:scale-[0.98]"
+          className="flex h-20 items-center justify-center gap-4 rounded-[10px] bg-danger text-4xl font-bold text-white shadow-xl active:scale-[0.98]"
         >
-          <Phone size={40} /> POMOC
+          <Phone size={36} /> POMOC
         </Link>
       </div>
     </main>
@@ -48,7 +51,7 @@ function DoseCard({ item, current }: { item: TodayDose; current: Date }) {
     taken: 'border-success bg-success-soft',
     due: 'border-primary bg-primary-soft animate-pulse',
     missed: 'border-warning bg-warning-soft',
-    upcoming: 'border-slate-200 bg-white',
+    upcoming: 'border-primary-soft bg-white',
   }[status]
   const label = {
     taken: `Wzięte ✅ ${dose.taken_at ? hhmm(dose.taken_at) : ''}`,
@@ -58,9 +61,9 @@ function DoseCard({ item, current }: { item: TodayDose; current: Date }) {
   }[status]
 
   return (
-    <article className={`rounded-3xl border-4 p-5 ${styles}`}>
+    <article className={`rounded-[10px] border-4 p-5 ${styles}`}>
       <div className="flex items-center gap-4">
-        <span className="h-14 w-14 shrink-0 rounded-full border-2 border-slate-400" style={{ background: med.color ?? '#fff' }} aria-hidden />
+        <span className="h-14 w-14 shrink-0 rounded-full border-2 border-navy/30" style={{ background: med.color ?? '#fff' }} aria-hidden />
         <div className="min-w-0">
           <p className="text-3xl font-bold leading-tight">{med.name}</p>
           <p className="text-muted">
@@ -72,7 +75,7 @@ function DoseCard({ item, current }: { item: TodayDose; current: Date }) {
       {canConfirm(dose, current) && (
         <button
           onClick={() => db.markTaken(dose.id, now().toISOString())}
-          className="mt-4 flex h-20 w-full items-center justify-center gap-3 rounded-2xl bg-success text-3xl font-bold text-white active:scale-[0.98]"
+          className="mt-4 flex h-20 w-full items-center justify-center gap-3 rounded-[10px] bg-success text-3xl font-bold text-white active:scale-[0.98]"
         >
           <Check size={36} strokeWidth={3} /> Wziąłem
         </button>

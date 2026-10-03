@@ -1,19 +1,20 @@
 import { useEffect, useRef } from 'react'
 import { NavLink, Outlet } from 'react-router-dom'
-import { CalendarDays, Landmark, LayoutDashboard, Phone, Pill, Stethoscope, Video } from 'lucide-react'
+import { CalendarDays, HandHeart, House, Phone, Pill, Video } from 'lucide-react'
 import { useData } from '../../lib/data'
 import { db } from '../../lib/db'
 import { now } from '../../lib/clock'
 import { config } from '../../lib/config'
 import { playAlert } from '../../lib/alert'
 import { firstName, fmtTime } from '../../lib/format'
+import { Logo } from '../../components/ui'
 
+// Lekarze są dostępni z kafelka na Pulpicie / w Lekach (układ z Figmy)
 const nav = [
-  { to: '/opiekun', label: 'Pulpit', icon: LayoutDashboard, end: true },
+  { to: '/opiekun', label: 'Pulpit', icon: House, end: true },
   { to: '/opiekun/leki', label: 'Leki', icon: Pill },
   { to: '/opiekun/kalendarz', label: 'Kalendarz', icon: CalendarDays },
-  { to: '/opiekun/lekarze', label: 'Lekarze', icon: Stethoscope },
-  { to: '/opiekun/programy', label: 'Programy', icon: Landmark },
+  { to: '/opiekun/programy', label: 'Programy', icon: HandHeart },
 ]
 
 export default function CaregiverLayout() {
@@ -22,31 +23,35 @@ export default function CaregiverLayout() {
   useAlertSound(snap.helpRequests.length + missed.length)
 
   return (
-    <div className="mx-auto flex min-h-full max-w-md flex-col bg-slate-50 pb-20">
-      <header className="sticky top-0 z-10 flex items-center justify-between border-b bg-white px-4 py-3">
-        <div>
-          <p className="text-xs font-semibold uppercase tracking-wide text-primary">MójSenior · Opiekun</p>
-          <p className="font-bold">{snap.senior?.name ?? 'Senior'}</p>
-        </div>
-        <span className="rounded-full bg-slate-100 px-3 py-1 text-sm tabular-nums text-muted">{fmtTime(current)}</span>
+    <div className="mx-auto flex min-h-full max-w-md flex-col bg-white pb-28">
+      <header className="sticky top-0 z-10 flex flex-col items-center gap-1 bg-white/95 px-4 pb-3 pt-5 backdrop-blur">
+        <Logo />
+        <p className="text-xs text-muted">
+          Opiekun · {snap.senior?.name ?? 'Senior'} · <span className="tabular-nums">{fmtTime(current)}</span>
+        </p>
       </header>
 
-      <main className="flex-1 p-4">
+      <main className="flex-1 px-5 pt-2">
         <Outlet />
       </main>
 
-      <nav className="fixed inset-x-0 bottom-0 mx-auto grid max-w-md grid-cols-5 border-t bg-white">
+      {/* białe tło pod pływającym paskiem, żeby przewijana treść nie prześwitywała */}
+      <div className="fixed inset-x-0 bottom-0 z-20 mx-auto max-w-md bg-linear-to-t from-white from-70% to-white/0 px-5 pb-4 pt-6">
+      <nav className="grid h-[64px] grid-cols-4 rounded-[10px] border bg-white shadow-lg">
         {nav.map(({ to, label, icon: Icon, end }) => (
-          <NavLink
-            key={to}
-            to={to}
-            end={end}
-            className={({ isActive }) => `flex flex-col items-center gap-0.5 py-2 text-xs ${isActive ? 'text-primary' : 'text-muted'}`}
-          >
-            <Icon size={22} /> {label}
+          <NavLink key={to} to={to} end={end} className="flex flex-col items-center justify-center gap-0.5">
+            {({ isActive }) => (
+              <>
+                <span className={`grid h-[34px] w-[40px] place-items-center rounded-[10px] ${isActive ? 'bg-primary text-white' : 'bg-primary-soft/50 text-navy'}`}>
+                  <Icon size={20} strokeWidth={1.75} />
+                </span>
+                <span className={`text-[11px] ${isActive ? 'font-semibold text-primary' : 'text-navy'}`}>{label}</span>
+              </>
+            )}
           </NavLink>
         ))}
       </nav>
+      </div>
 
       {help && (
         <div className="fixed inset-0 z-50 flex flex-col items-center justify-center gap-6 bg-danger p-8 text-center text-white">
