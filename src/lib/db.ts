@@ -21,6 +21,8 @@ export interface Db {
   load(): Promise<Snapshot>
   subscribe(onChange: () => void): () => void
   upsertDoctors(doctors: Doctor[]): Promise<void>
+  /** Leki i wizyty zostają, tylko tracą powiązanie z lekarzem (jak "on delete set null" w SQL). */
+  deleteDoctor(id: string): Promise<void>
   upsertMedications(meds: Medication[]): Promise<void>
   ensureDoses(rows: Pick<DoseEvent, 'medication_id' | 'scheduled_at'>[]): Promise<void>
   markTaken(doseId: string, atIso: string): Promise<void>
@@ -95,6 +97,13 @@ function createLocalDb(): Db {
     },
     async upsertDoctors(doctors) {
       write((s) => upsertById(s.doctors, doctors))
+    },
+    async deleteDoctor(id) {
+      write((s) => {
+        s.doctors = s.doctors.filter((d) => d.id !== id)
+        s.medications.forEach((m) => m.prescribing_doctor_id === id && (m.prescribing_doctor_id = null))
+        s.appointments.forEach((a) => a.doctor_id === id && (a.doctor_id = null))
+      })
     },
     async upsertMedications(meds) {
       write((s) => upsertById(s.medications, meds))
@@ -172,6 +181,9 @@ function createSupabaseDb(sb: SupabaseClient): Db {
     },
     async upsertDoctors(doctors) {
       check(await sb.from('doctors').upsert(doctors))
+    },
+    async deleteDoctor(id) {
+      check(await sb.from('doctors').delete().eq('id', id))
     },
     async upsertMedications(meds) {
       check(await sb.from('medications').upsert(meds))
