@@ -1,0 +1,13 @@
+{
+  "_note": "Dane FIKCYJNE na potrzeby demo. purchase_days_ago liczone od dnia importu, żeby demo działało w dowolnym dniu. Flagi free_65 są ilustracyjne - nie weryfikowano ich z wykazem MZ.",
+  "doctors": [
+    { "id": "00000000-0000-4000-8000-0000000000d1", "name": "dr Anna Nowak", "specialty": "lekarz rodzinny", "clinic": "Przychodnia Zdrowie, ul. Przykładowa 1, Kraków", "phone": "+48500000001" },
+    { "id": "00000000-0000-4000-8000-0000000000d2", "name": "dr Piotr Wiśniewski", "specialty": "kardiolog", "clinic": "Poradnia Kardiologiczna, ul. Testowa 5, Kraków", "phone": "+48500000002" }
+  ],
+  "prescriptions": [
+    { "id": "00000000-0000-4000-8000-0000000000a1", "name": "Metformax 500", "active_substance": "metformina", "dose_label": "1 tabletka", "units_per_dose": 1, "times": ["08:00", "20:00"], "package_size": 60, "packages_bought": 1, "purchase_days_ago": 27, "pharmacy": "Apteka Pod Lipą, Kraków", "doctor_id": "00000000-0000-4000-8000-0000000000d1", "free_65": false, "color": "#f8fafc" },
+    { "id": "00000000-0000-4000-8000-0000000000a2", "name": "Bisocard 5", "active_substance": "bisoprolol", "dose_label": "1 tabletka", "units_per_dose": 1, "times": ["08:00"], "package_size": 30, "packages_bought": 1, "purchase_days_ago": 10, "pharmacy": "Apteka Pod Lipą, Kraków", "doctor_id": "00000000-0000-4000-8000-0000000000d2", "free_65": true, "color": "#fde68a" },
+    { "id": "00000000-0000-4000-8000-0000000000a3", "name": "Polpril 5", "active_substance": "ramipryl", "dose_label": "1 kapsułka", "units_per_dose": 1, "times": ["08:00"], "package_size": 28, "packages_bought": 1, "purchase_days_ago": 5, "pharmacy": "Apteka Centralna, Kraków", "doctor_id": "00000000-0000-4000-8000-0000000000d2", "free_65": true, "color": "#fca5a5" },
+    { "id": "00000000-0000-4000-8000-0000000000a4", "name": "Atoris 20", "active_substance": "atorwastatyna", "dose_label": "1 tabletka", "units_per_dose": 1, "times": ["20:00"], "package_size": 30, "packages_bought": 1, "purchase_days_ago": 14, "pharmacy": "Apteka Centralna, Kraków", "doctor_id": "00000000-0000-4000-8000-0000000000d1", "free_65": false, "color": "#bfdbfe" }
+  ]
+}
