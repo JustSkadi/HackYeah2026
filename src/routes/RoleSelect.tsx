@@ -9,14 +9,14 @@ export default function RoleSelect() {
         <Logo className="text-5xl" />
         <p className="mt-2 text-lg text-muted">Leki, recepty i wizyty seniora pod kontrolą opiekuna.</p>
       </div>
+      <Link to="/demo" className="flex items-center gap-4 rounded-3xl bg-success p-6 text-2xl font-bold text-white shadow-lg">
+        <MonitorSmartphone size={40} /> Tryb demo
+      </Link>
       <Link to="/senior" className="flex items-center gap-4 rounded-3xl bg-primary p-6 text-2xl font-bold text-white shadow-lg">
         <UserRound size={40} /> Jestem seniorem
       </Link>
       <Link to="/opiekun" className="flex items-center gap-4 rounded-3xl border-2 border-primary bg-white p-6 text-2xl font-bold text-primary shadow">
         <HeartHandshake size={40} /> Jestem opiekunem
-      </Link>
-      <Link to="/demo" className="flex items-center gap-4 rounded-3xl bg-success p-6 text-2xl font-bold text-white shadow-lg">
-        <MonitorSmartphone size={40} /> Tryb demo
       </Link>
     </main>
   )
