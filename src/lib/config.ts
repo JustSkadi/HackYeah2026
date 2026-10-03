@@ -14,3 +14,9 @@ export const PHARMACY_SEARCH_URL = 'https://www.gdziepolek.pl/wyszukiwanie?q='
 export function buyOnlineUrl(med: { name: string; buy_online_url: string | null }): string {
   return med.buy_online_url ?? PHARMACY_SEARCH_URL + encodeURIComponent(med.name)
 }
+
+// Nagrane filmy do symulowanej wideorozmowy (pliki w public/video/). Brak pliku = awatar z literą.
+export const DEMO_VIDEO = {
+  caregiver: '/video/opiekun.mp4', // widzi senior po kliknięciu POMOC
+  senior: '/video/senior.mp4', // widzi opiekun po "Odbierz wideo"
+}

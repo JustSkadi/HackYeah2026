@@ -8,10 +8,12 @@ import { forecastStock } from '../../lib/stock'
 import { hhmm } from '../../lib/doses'
 import { firstName, fmtDate, fmtDateTime } from '../../lib/format'
 import { QuickTiles, Section } from '../../components/ui'
+import { usePhoneCall } from '../../components/PhoneCall'
 
 const PREVIEW = 2
 
 export default function Dashboard() {
+  const call = usePhoneCall()
   const { snap, missed, current } = useData()
   const [allAlerts, setAllAlerts] = useState(false)
   const name = snap.senior ? firstName(snap.senior.name) : 'Senior'
@@ -54,9 +56,9 @@ export default function Dashboard() {
               <ShoppingCart size={16} /> Kup online
             </a>
             {doctor && (
-              <a href={`tel:${doctor.phone}`} className="rounded-lg border border-warning px-3 py-2">
+              <button onClick={() => call({ name: doctor.name, number: doctor.phone })} className="rounded-lg border border-warning px-3 py-2">
                 Zadzwoń: {doctor.name}
-              </a>
+              </button>
             )}
           </div>
         </div>

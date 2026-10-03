@@ -1,10 +1,18 @@
 import { Link } from 'react-router-dom'
-import { Check, Phone, Plus } from 'lucide-react'
+import { CalendarDays, Check, Microscope, Plus, Stethoscope, UserRound } from 'lucide-react'
 import { useData, type TodayDose } from '../../lib/data'
 import { db } from '../../lib/db'
 import { now } from '../../lib/clock'
 import { canConfirm, hhmm } from '../../lib/doses'
 import { Logo, StatusBar } from '../../components/ui'
+import { PomocBar } from '../../components/senior/SeniorShell'
+
+const HEALTH_TILES = [
+  { to: '/senior/kalendarz', label: 'Kalendarz', icon: CalendarDays },
+  { to: '/senior/wizyty', label: 'Wizyty', icon: Stethoscope },
+  { to: '/senior/badania', label: 'Badania', icon: Microscope },
+  { to: '/senior/lekarze', label: 'Lekarze', icon: UserRound },
+]
 
 export default function SeniorToday() {
   const { todayDoses, current, snap } = useData()
@@ -36,14 +44,23 @@ export default function SeniorToday() {
         </Link>
       </section>
 
-      <div className="fixed inset-x-0 bottom-0 mx-auto max-w-md bg-linear-to-t from-white from-70% to-white/0 px-5 pb-4 pt-6">
-        <Link
-          to="/senior/pomoc"
-          className="flex h-20 items-center justify-center gap-4 rounded-[10px] bg-danger text-4xl font-bold text-white shadow-xl active:scale-[0.98]"
-        >
-          <Phone size={36} /> POMOC
-        </Link>
-      </div>
+      <section className="flex flex-col gap-4 px-5 pt-8">
+        <h2 className="text-[28px] font-bold text-navy">Moje zdrowie</h2>
+        <div className="grid grid-cols-2 gap-3">
+          {HEALTH_TILES.map(({ to, label, icon: Icon }) => (
+            <Link
+              key={to}
+              to={to}
+              className="flex h-32 flex-col items-center justify-center gap-2 rounded-[10px] border-4 border-primary-soft bg-primary-soft/30 font-bold text-navy active:scale-[0.98]"
+            >
+              <Icon size={40} strokeWidth={1.75} className="text-primary" />
+              {label}
+            </Link>
+          ))}
+        </div>
+      </section>
+
+      <PomocBar />
     </main>
   )
 }

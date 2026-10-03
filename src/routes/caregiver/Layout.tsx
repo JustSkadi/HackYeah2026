@@ -7,6 +7,7 @@ import { now } from '../../lib/clock'
 import { playAlert } from '../../lib/alert'
 import { firstName } from '../../lib/format'
 import { Logo, StatusBar } from '../../components/ui'
+import { DEMO_VIDEO } from '../../lib/config'
 import VideoCall from '../../components/VideoCall'
 
 // Lekarze są dostępni z kafelka na Pulpicie / w Lekach (układ z Figmy)
@@ -36,9 +37,9 @@ export default function CaregiverLayout() {
 
   return (
     <div className="mx-auto flex min-h-full max-w-md flex-col bg-white pb-28">
-      <header className="sticky top-0 z-10 flex flex-col items-center bg-white/95 pb-4 backdrop-blur">
-        <StatusBar />
-        <Logo className="mt-2 text-[28px]" />
+      <StatusBar />
+      <header className="flex justify-center pb-4 pt-2">
+        <Logo className="text-[28px]" />
       </header>
 
       <main className="flex-1 px-5 pt-2">
@@ -66,7 +67,7 @@ export default function CaregiverLayout() {
       {help && inCall && (
         <div className="fixed inset-0 z-50 mx-auto flex max-w-md flex-col bg-navy">
           <StatusBar dark />
-          <VideoCall peerName={seniorName} onEnd={endCall} />
+          <VideoCall peerName={seniorName} peerVideo={DEMO_VIDEO.senior} onEnd={endCall} />
         </div>
       )}
 

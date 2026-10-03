@@ -3,6 +3,10 @@ import RoleSelect from './routes/RoleSelect'
 import SeniorToday from './routes/senior/Today'
 import SeniorHelp from './routes/senior/Help'
 import SeniorAddMedication from './routes/senior/AddMedication'
+import SeniorCalendar from './routes/senior/Calendar'
+import SeniorVisits from './routes/senior/Visits'
+import SeniorTests from './routes/senior/Tests'
+import SeniorDoctors from './routes/senior/Doctors'
 import CaregiverLayout from './routes/caregiver/Layout'
 import Dashboard from './routes/caregiver/Dashboard'
 import Medications from './routes/caregiver/Medications'
@@ -21,6 +25,10 @@ export default function App() {
       <Route path="/senior" element={<SeniorToday />} />
       <Route path="/senior/pomoc" element={<SeniorHelp />} />
       <Route path="/senior/dodaj-lek" element={<SeniorAddMedication />} />
+      <Route path="/senior/kalendarz" element={<SeniorCalendar />} />
+      <Route path="/senior/wizyty" element={<SeniorVisits />} />
+      <Route path="/senior/badania" element={<SeniorTests />} />
+      <Route path="/senior/lekarze" element={<SeniorDoctors />} />
       <Route path="/opiekun" element={<CaregiverLayout />}>
         <Route index element={<Dashboard />} />
         <Route path="leki" element={<Medications />} />

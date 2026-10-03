@@ -5,6 +5,7 @@ import { buyOnlineUrl } from '../../lib/config'
 import { hhmm } from '../../lib/doses'
 import type { CalEvent } from './events'
 import { doseStatusLabel } from './styles'
+import { usePhoneCall } from '../PhoneCall'
 
 interface Props {
   event: CalEvent
@@ -13,6 +14,7 @@ interface Props {
 
 /** Szczegóły wydarzenia jako bottom sheet. */
 export default function EventSheet({ event, onClose }: Props) {
+  const call = usePhoneCall()
   const when = event.allDay
     ? format(event.start, 'EEEE, d MMMM', { locale: pl })
     : `${format(event.start, 'EEEE, d MMMM', { locale: pl })} · ${format(event.start, 'HH:mm')}`
@@ -52,9 +54,9 @@ export default function EventSheet({ event, onClose }: Props) {
             {event.appointment.place && <p className="text-muted">{event.appointment.place}</p>}
             {event.appointment.note && <p className="mt-1 rounded-lg bg-primary-soft/20 p-2">{event.appointment.note}</p>}
             {event.doctor && (
-              <a href={`tel:${event.doctor.phone}`} className="mt-3 flex items-center justify-center gap-2 rounded-xl bg-primary py-2.5 font-semibold text-white">
+              <button onClick={() => event.doctor && call({ name: event.doctor.name, number: event.doctor.phone })} className="mt-3 flex items-center justify-center gap-2 rounded-xl bg-primary py-2.5 font-semibold text-white">
                 <Phone size={16} /> Zadzwoń do przychodni
-              </a>
+              </button>
             )}
           </div>
         )}

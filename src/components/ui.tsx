@@ -9,7 +9,9 @@ import { fmtTime } from '../lib/format'
 export function StatusBar({ dark = false }: { dark?: boolean }) {
   const { current } = useData()
   return (
-    <div className={`flex h-8 w-full shrink-0 items-center justify-between self-stretch px-6 text-[13px] font-semibold ${dark ? 'text-white' : 'text-navy'}`}>
+    <div
+      className={`sticky top-0 z-30 flex h-8 w-full shrink-0 items-center justify-between self-stretch px-6 text-[13px] font-semibold ${dark ? 'bg-navy text-white' : 'bg-white text-navy'}`}
+    >
       <span className="tabular-nums">{fmtTime(current)}</span>
       <span className="flex items-center gap-1.5">
         <Signal size={15} strokeWidth={2.25} />

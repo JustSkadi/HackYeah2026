@@ -4,6 +4,7 @@ import { useData } from '../../lib/data'
 import { db } from '../../lib/db'
 import type { Doctor } from '../../lib/types'
 import { PageTitle } from '../../components/ui'
+import { usePhoneCall } from '../../components/PhoneCall'
 
 export default function Doctors() {
   const { snap } = useData()
@@ -85,6 +86,7 @@ function DoctorForm({ title, doctor, onDone }: { title: string; doctor?: Doctor;
 }
 
 function DoctorCard({ doctor }: { doctor: Doctor }) {
+  const call = usePhoneCall()
   const { snap } = useData()
   const [mode, setMode] = useState<'view' | 'edit' | 'confirmDelete'>('view')
   const [menuOpen, setMenuOpen] = useState(false)
@@ -155,9 +157,9 @@ function DoctorCard({ doctor }: { doctor: Doctor }) {
       ) : (
         <>
           <div className="mt-3 grid grid-cols-2 gap-2 text-sm font-semibold">
-            <a href={`tel:${doctor.phone}`} className="flex items-center justify-center gap-1 rounded-xl bg-primary py-2.5 text-white">
+            <button onClick={() => call({ name: doctor.name, number: doctor.phone })} className="flex items-center justify-center gap-1 rounded-xl bg-primary py-2.5 text-white">
               <Phone size={16} /> Zadzwoń i umów
-            </a>
+            </button>
             <button onClick={() => setVisitOpen((o) => !o)} className="flex items-center justify-center gap-1 rounded-xl border border-primary py-2.5 text-primary">
               <Plus size={16} /> Dodaj wizytę
             </button>

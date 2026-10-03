@@ -15,8 +15,8 @@ export default function RoleSelect() {
       <Link to="/opiekun" className="flex items-center gap-4 rounded-3xl border-2 border-primary bg-white p-6 text-2xl font-bold text-primary shadow">
         <HeartHandshake size={40} /> Jestem opiekunem
       </Link>
-      <Link to="/demo" className="mt-4 flex items-center justify-center gap-2 text-muted underline">
-        <MonitorSmartphone size={18} /> Tryb demo: oba ekrany obok siebie
+      <Link to="/demo" className="flex items-center gap-4 rounded-3xl bg-success p-6 text-2xl font-bold text-white shadow-lg">
+        <MonitorSmartphone size={40} /> Tryb demo
       </Link>
     </main>
   )
