@@ -15,8 +15,8 @@ export default function SeniorDoctors() {
           <p className="text-2xl font-bold">{d.name}</p>
           {d.specialty && <p className="text-muted">{d.specialty}</p>}
           {d.clinic && <p className="mt-1 text-lg text-muted">{d.clinic}</p>}
-          <button onClick={() => call({ name: d.name, number: d.phone })} className="mt-4 flex h-16 items-center justify-center gap-3 rounded-[10px] bg-primary text-2xl font-bold text-white">
-            <Phone size={28} /> Zadzwoń
+          <button onClick={() => call({ name: d.name, number: d.phone })} className="mt-4 flex h-16 w-full items-center justify-center gap-2 rounded-[10px] bg-primary px-4 text-xl font-bold text-white">
+            <Phone size={24} /> Zadzwoń
           </button>
         </article>
       ))}

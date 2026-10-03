@@ -25,8 +25,8 @@ export default function SeniorVisits() {
             {a.place && <p className="mt-1 text-muted">{a.place}</p>}
             {a.note && <p className="mt-3 rounded-[10px] bg-primary-soft/40 p-3">{a.note}</p>}
             {doctor && (
-              <button onClick={() => call({ name: doctor.name, number: doctor.phone })} className="mt-4 flex h-16 items-center justify-center gap-3 rounded-[10px] bg-primary text-2xl font-bold text-white">
-                <Phone size={28} /> Zadzwoń
+              <button onClick={() => call({ name: doctor.name, number: doctor.phone })} className="mt-4 flex h-16 w-full items-center justify-center gap-2 rounded-[10px] bg-primary px-4 text-xl font-bold text-white">
+                <Phone size={24} /> Zadzwoń
               </button>
             )}
           </article>
