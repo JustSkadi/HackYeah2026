@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { parseISO } from 'date-fns'
 import { Download, Loader2, ShoppingCart } from 'lucide-react'
 import { useData } from '../../lib/data'
-import { config, PHARMACY_SEARCH_URL } from '../../lib/config'
+import { buyOnlineUrl, config } from '../../lib/config'
 import { forecastStock } from '../../lib/stock'
 import { importFromIkp } from '../../lib/ikp'
 import { fmtDate } from '../../lib/format'
@@ -69,7 +69,7 @@ export default function Medications() {
                 Kupiono {fmtDate(parseISO(med.purchase_date))}
                 {med.pharmacy ? ` · ${med.pharmacy}` : ''}
               </span>
-              <a href={med.buy_online_url ?? PHARMACY_SEARCH_URL} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 font-semibold text-primary">
+              <a href={buyOnlineUrl(med)} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 font-semibold text-primary">
                 <ShoppingCart size={16} /> Kup
               </a>
             </div>

@@ -8,6 +8,8 @@ import { fmtDay, fmtTime } from '../../lib/format'
 
 export default function SeniorToday() {
   const { todayDoses, current, snap } = useData()
+  // wzięte leki spadają na dół listy (sort stabilny - reszta zostaje w kolejności godzin)
+  const ordered = [...todayDoses].sort((a, b) => Number(a.status === 'taken') - Number(b.status === 'taken'))
 
   return (
     <main className="mx-auto flex min-h-full max-w-md flex-col bg-white pb-36 text-[22px]">
@@ -23,7 +25,7 @@ export default function SeniorToday() {
             {snap.medications.length === 0 ? 'Opiekun jeszcze nie dodał leków.' : 'Na dziś nie ma więcej leków.'}
           </p>
         )}
-        {todayDoses.map((t) => (
+        {ordered.map((t) => (
           <DoseCard key={t.dose.id} item={t} current={current} />
         ))}
       </section>

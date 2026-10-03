@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom'
 import { parseISO } from 'date-fns'
 import { AlertTriangle, CalendarClock, CheckCircle2, Clock, Download, ShoppingCart } from 'lucide-react'
 import { useData } from '../../lib/data'
-import { config, PHARMACY_SEARCH_URL } from '../../lib/config'
+import { buyOnlineUrl, config } from '../../lib/config'
 import { forecastStock } from '../../lib/stock'
 import { hhmm, type DoseStatus } from '../../lib/doses'
 import { firstName, fmtDate, fmtDateTime } from '../../lib/format'
@@ -64,7 +64,7 @@ export default function Dashboard() {
               {f.refillBy < current ? 'Wykup receptę jak najszybciej.' : `Wykup receptę do ${fmtDate(f.refillBy)}.`} Lek wystarczy do {fmtDate(f.runoutDate)}.
             </p>
             <div className="mt-3 flex flex-wrap gap-2 text-sm font-semibold">
-              <a href={med.buy_online_url ?? PHARMACY_SEARCH_URL} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 rounded-lg bg-warning px-3 py-2 text-white">
+              <a href={buyOnlineUrl(med)} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 rounded-lg bg-warning px-3 py-2 text-white">
                 <ShoppingCart size={16} /> Kup online
               </a>
               {doctor && (

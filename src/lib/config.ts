@@ -8,5 +8,9 @@ export const config = {
 
 export const DEMO_SENIOR_ID = '00000000-0000-4000-8000-000000000001'
 
-// TODO: podmienić na docelową wyszukiwarkę/aptekę online (z nazwą leku w URL, jeśli serwis to wspiera)
-export const PHARMACY_SEARCH_URL = 'https://www.gdziepolek.pl'
+// Wyszukiwarka leku w aptekach - nazwa leku doklejana jako ?q=
+export const PHARMACY_SEARCH_URL = 'https://www.gdziepolek.pl/wyszukiwanie?q='
+
+export function buyOnlineUrl(med: { name: string; buy_online_url: string | null }): string {
+  return med.buy_online_url ?? PHARMACY_SEARCH_URL + encodeURIComponent(med.name)
+}

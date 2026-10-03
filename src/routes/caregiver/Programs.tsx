@@ -1,6 +1,5 @@
 import { ExternalLink } from 'lucide-react'
 import { useData } from '../../lib/data'
-import { firstName } from '../../lib/format'
 import programs from '../../data/programs.json'
 
 interface Program {
@@ -23,7 +22,7 @@ export default function ProgramsPage() {
   return (
     <div className="flex flex-col gap-4">
       <p className="text-sm text-muted">
-        Dopasowane do: {snap.senior ? firstName(snap.senior.name) : 'senior'}, {age} lat
+        Dopasowane do: {sex === 'F' ? 'kobieta' : sex === 'M' ? 'mężczyzna' : 'senior'}, {age} lat
       </p>
       {matching.map((p) => (
         <article key={p.id} className="rounded-2xl bg-white p-4 shadow-sm">

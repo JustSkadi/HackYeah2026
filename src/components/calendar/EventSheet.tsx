@@ -1,7 +1,7 @@
 import { format } from 'date-fns'
 import { pl } from 'date-fns/locale'
 import { Phone, ShoppingCart, X } from 'lucide-react'
-import { PHARMACY_SEARCH_URL } from '../../lib/config'
+import { buyOnlineUrl } from '../../lib/config'
 import { hhmm } from '../../lib/doses'
 import type { CalEvent } from './events'
 import { doseStatusLabel } from './styles'
@@ -69,7 +69,7 @@ export default function EventSheet({ event, onClose }: Props) {
                 : 'Według planu dawkowania w tym dniu skończy się opakowanie.'}
             </p>
             <a
-              href={event.med.buy_online_url ?? PHARMACY_SEARCH_URL}
+              href={buyOnlineUrl(event.med)}
               target="_blank"
               rel="noreferrer"
               className="mt-3 flex items-center justify-center gap-2 rounded-xl bg-warning py-2.5 font-semibold text-white"
