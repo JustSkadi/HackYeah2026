@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useLocation } from 'react-router-dom'
 import { parseISO } from 'date-fns'
 import { Download, Loader2, Plus, RefreshCw, ShoppingCart } from 'lucide-react'
 import MedicationForm from '../../components/MedicationForm'
@@ -16,7 +17,9 @@ export default function Medications() {
   const { snap, current, age, todayDoses } = useData()
   const [importing, setImporting] = useState(false)
   const [allStock, setAllStock] = useState(false)
-  const [adding, setAdding] = useState(false)
+  // ?dodaj=1 (z "Dodaj lek ręcznie" w pustym stanie) od razu otwiera formularz
+  const { search } = useLocation()
+  const [adding, setAdding] = useState(() => new URLSearchParams(search).get('dodaj') === '1')
 
   const runImport = async () => {
     setImporting(true)

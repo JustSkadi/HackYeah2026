@@ -16,6 +16,7 @@ import Programs from './routes/caregiver/Programs'
 import Referrals from './routes/caregiver/Referrals'
 import Tests from './routes/caregiver/Tests'
 import Documents from './routes/caregiver/Documents'
+import Visits from './routes/caregiver/Visits'
 import SplitView from './routes/demo/SplitView'
 
 export default function App() {
@@ -38,6 +39,7 @@ export default function App() {
         <Route path="skierowania" element={<Referrals />} />
         <Route path="badania" element={<Tests />} />
         <Route path="dokumenty" element={<Documents />} />
+        <Route path="wizyty" element={<Visits />} />
       </Route>
       <Route path="/demo" element={<SplitView />} />
       <Route path="*" element={<Navigate to="/" replace />} />

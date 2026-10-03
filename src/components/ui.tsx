@@ -1,8 +1,9 @@
 // Wspólne elementy układu z Figmy: logo, nagłówek sekcji, kafelki skrótów.
 import type { ReactNode } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { BatteryFull, ChevronLeft, ClipboardList, Download, FolderOpen, Microscope, Signal, Stethoscope, Wifi, type LucideIcon } from 'lucide-react'
+import { BatteryFull, ChevronLeft, ClipboardList, FolderOpen, Microscope, Signal, Stethoscope, Wifi, type LucideIcon } from 'lucide-react'
 import { useData } from '../lib/data'
+import ImportOrAdd from './caregiver/ImportOrAdd'
 import { fmtTime } from '../lib/format'
 
 /** Symulowany pasek statusu telefonu. Godzina z zegara demo, więc widać przesunięcie czasu. */
@@ -42,15 +43,7 @@ export function PageTitle({ title, subtitle }: { title: string; subtitle?: strin
 export function NeedsIkpImport({ children }: { children: ReactNode }) {
   const { snap } = useData()
   if (snap.medications.length > 0) return <>{children}</>
-  return (
-    <div className="card text-center">
-      <p className="font-semibold">Brak danych z IKP</p>
-      <p className="mt-1 text-sm text-muted">Zaimportuj dane z Internetowego Konta Pacjenta w zakładce Leki.</p>
-      <Link to="/opiekun/leki" className="mt-3 inline-flex items-center gap-2 rounded-[10px] bg-primary px-5 py-2.5 font-semibold text-white">
-        <Download size={18} /> Przejdź do importu
-      </Link>
-    </div>
-  )
+  return <ImportOrAdd title="Brak danych z IKP" text="Zaimportuj dane z Internetowego Konta Pacjenta albo dodaj lek ręcznie." />
 }
 
 /** Logo z Figmy (Marck Script). Rozmiar przez className, domyślnie 28px. */

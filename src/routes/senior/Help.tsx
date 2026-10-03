@@ -26,6 +26,22 @@ export default function SeniorHelp() {
     db.createHelpRequest(now().toISOString())
   }, [])
 
+  // wyjście z ekranu w dowolny sposób (wstecz, zamknięcie karty) też kończy rozmowę u opiekuna.
+  // Opóźnienie, bo StrictMode w dev symuluje odmontowanie i ponowne zamontowanie.
+  const mounted = useRef(true)
+  useEffect(() => {
+    mounted.current = true
+    const onUnload = () => db.resolveHelpRequests(now().toISOString())
+    window.addEventListener('pagehide', onUnload)
+    return () => {
+      mounted.current = false
+      window.removeEventListener('pagehide', onUnload)
+      setTimeout(() => {
+        if (!mounted.current) db.resolveHelpRequests(now().toISOString())
+      }, 0)
+    }
+  }, [])
+
   // opiekun zakończył rozmowę (albo zamknął alert) -> kończymy też u seniora
   useEffect(() => {
     if (open) opened.current = true

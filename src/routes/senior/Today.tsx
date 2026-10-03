@@ -26,7 +26,21 @@ export default function SeniorToday() {
         <Logo className="text-[34px]" />
       </header>
 
-      <section className="flex flex-col gap-4 px-5 pt-4">
+      {/* menu "Moje zdrowie" - u góry, ale kompaktowe, żeby głównym elementem zostały leki */}
+      <nav aria-label="Moje zdrowie" className="grid grid-cols-2 gap-2 px-5 pt-2">
+        {HEALTH_TILES.map(({ to, label, icon: Icon }) => (
+          <Link
+            key={to}
+            to={to}
+            className="flex h-[76px] flex-col items-center justify-center gap-1 rounded-[10px] border-2 border-primary-soft bg-primary-soft/30 px-2 text-xl font-bold text-navy active:scale-[0.98]"
+          >
+            <Icon size={28} strokeWidth={1.75} className="shrink-0 text-primary" />
+            {label}
+          </Link>
+        ))}
+      </nav>
+
+      <section className="flex flex-col gap-4 px-5 pt-6">
         <h1 className="text-[28px] font-bold text-navy">Lekarstwa na dziś</h1>
         {todayDoses.length === 0 && (
           <p className="rounded-[10px] bg-primary-soft/40 p-6 text-center text-muted">
@@ -42,22 +56,6 @@ export default function SeniorToday() {
         >
           <Plus size={30} strokeWidth={2.5} /> Dodaj lek
         </Link>
-      </section>
-
-      <section className="flex flex-col gap-4 px-5 pt-8">
-        <h2 className="text-[28px] font-bold text-navy">Moje zdrowie</h2>
-        <div className="grid grid-cols-2 gap-3">
-          {HEALTH_TILES.map(({ to, label, icon: Icon }) => (
-            <Link
-              key={to}
-              to={to}
-              className="flex h-32 flex-col items-center justify-center gap-2 rounded-[10px] border-4 border-primary-soft bg-primary-soft/30 font-bold text-navy active:scale-[0.98]"
-            >
-              <Icon size={40} strokeWidth={1.75} className="text-primary" />
-              {label}
-            </Link>
-          ))}
-        </div>
       </section>
 
       <PomocBar />
@@ -85,7 +83,7 @@ function DoseCard({ item, current }: { item: TodayDose; current: Date }) {
       <div className="flex items-center gap-4">
         <span className="h-14 w-14 shrink-0 rounded-full border-2 border-navy/30" style={{ background: med.color ?? '#fff' }} aria-hidden />
         <div className="min-w-0">
-          <p className="text-3xl font-bold leading-tight">{med.name}</p>
+          <p className="text-[26px] font-bold leading-tight break-words">{med.name}</p>
           <p className="text-muted">
             {med.dose_label} · {hhmm(dose.scheduled_at)}
           </p>
@@ -95,7 +93,7 @@ function DoseCard({ item, current }: { item: TodayDose; current: Date }) {
       {canConfirm(dose, current) && (
         <button
           onClick={() => db.markTaken(dose.id, now().toISOString())}
-          className="mt-4 flex h-20 w-full items-center justify-center gap-3 rounded-[10px] bg-success text-3xl font-bold text-white active:scale-[0.98]"
+          className="mt-4 flex h-20 w-full items-center justify-center gap-3 rounded-[10px] bg-success px-4 text-[28px] font-bold text-white active:scale-[0.98]"
         >
           <Check size={36} strokeWidth={3} /> Wziąłem
         </button>

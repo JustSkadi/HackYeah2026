@@ -65,7 +65,7 @@ export default function MedicationForm({ large = false, onDone }: Props) {
 
   // rozmiary: senior - duże pola i przyciski (min. 64px), opiekun - standardowe
   const s = large
-    ? { label: 'text-xl font-semibold', input: 'h-16 px-4 text-2xl', chip: 'min-h-16 px-3 text-xl', swatch: 'h-14 w-14', button: 'h-20 text-2xl', gap: 'gap-5' }
+    ? { label: 'text-xl font-semibold', input: 'h-16 px-4 text-2xl', chip: 'min-h-20 px-2 text-xl', swatch: 'h-14 w-14', button: 'h-20 px-4 text-2xl', gap: 'gap-5' }
     : { label: 'text-sm font-semibold', input: 'h-11 px-3', chip: 'min-h-10 px-3 text-sm', swatch: 'h-9 w-9', button: 'h-12', gap: 'gap-4' }
   const chip = (active: boolean) =>
     `${s.chip} rounded-[10px] border-2 font-semibold ${active ? 'border-primary bg-primary text-white' : 'border-primary-soft bg-white text-navy'}`
@@ -81,8 +81,9 @@ export default function MedicationForm({ large = false, onDone }: Props) {
         <legend className={`${s.label} mb-2`}>Kiedy brać?</legend>
         <div className="grid grid-cols-2 gap-2">
           {TIMES.map(({ label, time }) => (
-            <button key={time} type="button" onClick={() => toggleTime(time)} className={chip(times.includes(time))}>
-              {label} <span className="font-normal opacity-80">{time}</span>
+            <button key={time} type="button" onClick={() => toggleTime(time)} className={`${chip(times.includes(time))} flex flex-col items-center justify-center py-2 leading-tight`}>
+              <span>{label}</span>
+              <span className={`font-normal opacity-80 ${large ? 'text-lg' : 'text-xs'}`}>{time}</span>
             </button>
           ))}
         </div>
@@ -91,11 +92,15 @@ export default function MedicationForm({ large = false, onDone }: Props) {
       <fieldset className="flex flex-col gap-2">
         <legend className={`${s.label} mb-2`}>Ile na raz?</legend>
         <div className="grid grid-cols-3 gap-2">
-          {DOSES.map((d) => (
-            <button key={d.label} type="button" onClick={() => setDose(d)} className={chip(dose.label === d.label)}>
-              {d.label}
-            </button>
-          ))}
+          {DOSES.map((d) => {
+            const [amount, ...word] = d.label.split(' ')
+            return (
+              <button key={d.label} type="button" onClick={() => setDose(d)} className={`${chip(dose.label === d.label)} flex flex-col items-center justify-center py-2 leading-tight`}>
+                <span className={large ? 'text-3xl' : 'text-base'}>{amount}</span>
+                <span className={`font-normal ${large ? 'text-lg' : 'text-xs'}`}>{word.join(' ')}</span>
+              </button>
+            )
+          })}
         </div>
       </fieldset>
 

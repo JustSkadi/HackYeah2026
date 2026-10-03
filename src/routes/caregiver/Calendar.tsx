@@ -16,18 +16,6 @@ const VIEWS: { id: View; label: string }[] = [
   { id: 'week', label: 'Tydzień' },
   { id: 'month', label: 'Miesiąc' },
 ]
-const VIEW_KEY = 'mojsenior:calendar-view'
-
-function loadView(): View {
-  try {
-    const v = localStorage.getItem(VIEW_KEY)
-    if (v && VIEWS.some((x) => x.id === v)) return v as View
-  } catch {
-    // brak localStorage - domyślny widok
-  }
-  return '3day'
-}
-
 function visibleDays(view: View, anchor: Date): Date[] {
   if (view === 'day') return [anchor]
   if (view === '3day') return [0, 1, 2].map((i) => addDays(anchor, i))
@@ -37,18 +25,10 @@ function visibleDays(view: View, anchor: Date): Date[] {
 
 export default function Calendar() {
   const { snap, current } = useData()
-  const [view, setView] = useState<View>(loadView)
+  // po każdym wejściu na kalendarz startujemy od widoku miesiąca (widok nie jest zapamiętywany)
+  const [view, changeView] = useState<View>('month')
   const [anchor, setAnchor] = useState(() => startOfDay(current))
   const [selected, setSelected] = useState<CalEvent | null>(null)
-
-  const changeView = (v: View) => {
-    setView(v)
-    try {
-      localStorage.setItem(VIEW_KEY, v)
-    } catch {
-      // ignorujemy
-    }
-  }
 
   const days = visibleDays(view, anchor)
   const range = view === 'month' ? monthRange(anchor) : { from: days[0], to: days[days.length - 1] }

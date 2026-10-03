@@ -1,5 +1,5 @@
 import { addDays } from 'date-fns'
-import { AlertTriangle, CheckCircle2 } from 'lucide-react'
+import { AlertTriangle, CheckCircle2, Stethoscope } from 'lucide-react'
 import { useData } from '../../lib/data'
 import { fmtDate } from '../../lib/format'
 import { NeedsIkpImport, PageTitle } from '../../components/ui'
@@ -20,10 +20,13 @@ export default function Tests() {
   return (
     <div className="flex flex-col gap-4">
       <PageTitle title="Badania" subtitle="Wyniki badań z Internetowego Konta Pacjenta" />
+      <p className="flex items-center gap-2 rounded-[10px] border border-primary/30 bg-primary-soft/40 p-3 text-sm font-semibold text-navy">
+        <Stethoscope size={18} className="shrink-0 text-primary" /> Wyniki mają charakter informacyjny - zawsze skonsultuj je z lekarzem.
+      </p>
       <NeedsIkpImport>
         {outOfNorm > 0 && (
           <div className="flex items-center gap-2 rounded-[10px] bg-warning-soft p-3 text-sm font-semibold text-warning">
-            <AlertTriangle size={18} className="shrink-0" /> {outOfNorm} {resultsWord(outOfNorm)} poza normą - warto pokazać lekarzowi
+            <AlertTriangle size={18} className="shrink-0" /> {outOfNorm} {resultsWord(outOfNorm)} poza normą - skonsultuj z lekarzem
           </div>
         )}
         {records.tests.map((t) => (

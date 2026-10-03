@@ -1,13 +1,14 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { parseISO } from 'date-fns'
-import { AlertTriangle, CalendarClock, CheckCircle2, Download, Pill, ShoppingCart } from 'lucide-react'
+import { AlertTriangle, CalendarClock, CheckCircle2, Pill, ShoppingCart } from 'lucide-react'
 import { useData } from '../../lib/data'
 import { buyOnlineUrl, config } from '../../lib/config'
 import { forecastStock } from '../../lib/stock'
 import { hhmm } from '../../lib/doses'
 import { firstName, fmtDate, fmtDateTime } from '../../lib/format'
 import { QuickTiles, Section } from '../../components/ui'
+import ImportOrAdd from '../../components/caregiver/ImportOrAdd'
 import { usePhoneCall } from '../../components/PhoneCall'
 
 const PREVIEW = 2
@@ -75,13 +76,7 @@ export default function Dashboard() {
         more={alerts.length > PREVIEW ? { onClick: () => setAllAlerts((v) => !v), label: allAlerts ? 'Zwiń' : 'Zobacz wszystkie' } : undefined}
       >
         {snap.medications.length === 0 ? (
-          <div className="card text-center">
-            <p className="font-semibold">Brak leków seniora</p>
-            <p className="mt-1 text-sm text-muted">Zaimportuj recepty z Internetowego Konta Pacjenta.</p>
-            <Link to="/opiekun/leki" className="mt-3 inline-flex items-center gap-2 rounded-[10px] bg-primary px-5 py-2.5 font-semibold text-white">
-              <Download size={18} /> Importuj z IKP
-            </Link>
-          </div>
+          <ImportOrAdd title="Brak leków seniora" text="Zaimportuj recepty z Internetowego Konta Pacjenta albo dodaj lek ręcznie." />
         ) : alerts.length === 0 ? (
           <div className="card flex items-center gap-3 text-success">
             <CheckCircle2 /> Wszystko w porządku - brak nowych powiadomień.
@@ -105,12 +100,12 @@ export default function Dashboard() {
         </Section>
       )}
 
-      <Section title="Nadchodzące wizyty" more={{ to: '/opiekun/kalendarz' }}>
+      <Section title="Nadchodzące wizyty" more={{ to: '/opiekun/wizyty' }}>
         {appointments.length === 0 && <p className="card text-sm text-muted">Brak zaplanowanych wizyt.</p>}
         {appointments.slice(0, PREVIEW).map((a) => {
           const doctor = snap.doctors.find((d) => d.id === a.doctor_id)
           return (
-            <div key={a.id} className="card flex gap-3">
+            <Link key={a.id} to="/opiekun/wizyty" className="card flex gap-3">
               <span className="grid h-10 w-10 shrink-0 place-items-center rounded-[10px] bg-primary-soft/60 text-primary">
                 <CalendarClock size={20} strokeWidth={1.75} />
               </span>
@@ -119,7 +114,7 @@ export default function Dashboard() {
                 <p className="text-sm">{doctor ? `${doctor.name}${doctor.specialty ? ` · ${doctor.specialty}` : ''}` : 'Wizyta'}</p>
                 {a.place && <p className="truncate text-sm text-muted">{a.place}</p>}
               </div>
-            </div>
+            </Link>
           )
         })}
       </Section>

@@ -44,7 +44,7 @@ const PATHS: Path[] = [
   {
     title: 'Wyniki badań',
     time: '07:30',
-    steps: ['Opiekun: kafelek Badania → 2 wyniki poza normą', 'Senior: Moje zdrowie → Badania', 'Senior: „Pokaż lekarzowi”'],
+    steps: ['Opiekun: kafelek Badania → 2 wyniki poza normą', 'Senior: Moje zdrowie → Badania', 'Senior: „Skonsultuj z lekarzem”'],
   },
   {
     title: 'Programy i wsparcie',
