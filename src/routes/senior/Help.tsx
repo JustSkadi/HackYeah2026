@@ -6,6 +6,7 @@ import { db } from '../../lib/db'
 import { now } from '../../lib/clock'
 import { config } from '../../lib/config'
 import { firstName } from '../../lib/format'
+import { StatusBar } from '../../components/ui'
 
 export default function SeniorHelp() {
   const { snap } = useData()
@@ -26,6 +27,7 @@ export default function SeniorHelp() {
 
   return (
     <main className="mx-auto flex h-full max-w-md flex-col bg-ink text-[22px] text-white">
+      <StatusBar dark />
       {config.dailyRoomUrl ? (
         <iframe src={config.dailyRoomUrl} allow="camera; microphone; fullscreen; display-capture" className="min-h-0 flex-1" title="Wideorozmowa" />
       ) : (

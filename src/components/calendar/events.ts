@@ -3,7 +3,7 @@ import { addMinutes, eachDayOfInterval, format, isBefore, isSameDay, parseISO, s
 import type { Snapshot } from '../../lib/db'
 import { config } from '../../lib/config'
 import { forecastStock } from '../../lib/stock'
-import { doseStatus, scheduledTimesForDay, type DoseStatus } from '../../lib/doses'
+import { doseStatus, isDoseApplicable, scheduledTimesForDay, type DoseStatus } from '../../lib/doses'
 import type { Appointment, Doctor, Medication } from '../../lib/types'
 
 const DOSE_BLOCK_MIN = 30
@@ -37,6 +37,7 @@ export function buildEvents(snap: Snapshot, current: Date, from: Date, to: Date)
       if (isBefore(day, startOfDay(parseISO(med.purchase_date)))) continue
       for (const iso of scheduledTimesForDay(med, day)) {
         const dose = snap.doses.find((d) => d.medication_id === med.id && parseISO(d.scheduled_at).getTime() === parseISO(iso).getTime())
+        if (!dose && !isDoseApplicable(med, iso, current)) continue
         // brak rekordu = brak danych (np. dni sprzed importu) albo przyszłość
         const status: DoseItem['status'] = dose ? doseStatus(dose, current, config.graceMinutes) : 'planned'
         const list = byTime.get(iso) ?? []

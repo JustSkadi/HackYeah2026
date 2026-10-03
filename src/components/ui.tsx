@@ -1,7 +1,55 @@
 // Wspólne elementy układu z Figmy: logo, nagłówek sekcji, kafelki skrótów.
 import type { ReactNode } from 'react'
-import { Link } from 'react-router-dom'
-import { ClipboardList, FolderOpen, Microscope, Stethoscope, type LucideIcon } from 'lucide-react'
+import { Link, useNavigate } from 'react-router-dom'
+import { BatteryFull, ChevronLeft, ClipboardList, Download, FolderOpen, Microscope, Signal, Stethoscope, Wifi, type LucideIcon } from 'lucide-react'
+import { useData } from '../lib/data'
+import { fmtTime } from '../lib/format'
+
+/** Symulowany pasek statusu telefonu. Godzina z zegara demo, więc widać przesunięcie czasu. */
+export function StatusBar({ dark = false }: { dark?: boolean }) {
+  const { current } = useData()
+  return (
+    <div className={`flex h-8 w-full shrink-0 items-center justify-between self-stretch px-6 text-[13px] font-semibold ${dark ? 'text-white' : 'text-navy'}`}>
+      <span className="tabular-nums">{fmtTime(current)}</span>
+      <span className="flex items-center gap-1.5">
+        <Signal size={15} strokeWidth={2.25} />
+        <Wifi size={15} strokeWidth={2.25} />
+        <BatteryFull size={20} strokeWidth={2} />
+      </span>
+    </div>
+  )
+}
+
+/** Tytuł podstrony z przyciskiem wstecz (Lekarze, Skierowania, Badania, Dokumenty). */
+export function PageTitle({ title, subtitle }: { title: string; subtitle?: string }) {
+  const navigate = useNavigate()
+  return (
+    <div className="flex items-center gap-2">
+      <button onClick={() => navigate(-1)} aria-label="Wstecz" className="-ml-2 rounded-full p-1.5 text-navy hover:bg-primary-soft/40">
+        <ChevronLeft size={24} />
+      </button>
+      <div>
+        <h1 className="text-xl font-semibold text-navy">{title}</h1>
+        {subtitle && <p className="text-xs text-muted">{subtitle}</p>}
+      </div>
+    </div>
+  )
+}
+
+/** Dane z IKP pokazujemy dopiero po imporcie - inaczej zachęta do importu. */
+export function NeedsIkpImport({ children }: { children: ReactNode }) {
+  const { snap } = useData()
+  if (snap.medications.length > 0) return <>{children}</>
+  return (
+    <div className="card text-center">
+      <p className="font-semibold">Brak danych z IKP</p>
+      <p className="mt-1 text-sm text-muted">Zaimportuj dane z Internetowego Konta Pacjenta w zakładce Leki.</p>
+      <Link to="/opiekun/leki" className="mt-3 inline-flex items-center gap-2 rounded-[10px] bg-primary px-5 py-2.5 font-semibold text-white">
+        <Download size={18} /> Przejdź do importu
+      </Link>
+    </div>
+  )
+}
 
 /** Logo z Figmy (Marck Script). Rozmiar przez className, domyślnie 28px. */
 export function Logo({ className = 'text-[28px]' }: { className?: string }) {
@@ -44,10 +92,10 @@ interface Tile {
 }
 
 const TILES: Tile[] = [
-  { label: 'Skierowania', icon: ClipboardList },
-  { label: 'Badania', icon: Microscope },
+  { label: 'Skierowania', icon: ClipboardList, to: '/opiekun/skierowania' },
+  { label: 'Badania', icon: Microscope, to: '/opiekun/badania' },
   { label: 'Lekarze', icon: Stethoscope, to: '/opiekun/lekarze' },
-  { label: 'Dokumenty', icon: FolderOpen },
+  { label: 'Dokumenty', icon: FolderOpen, to: '/opiekun/dokumenty' },
 ]
 
 /** Rząd 4 kafelków skrótów (styl IKP). Niedostępne funkcje są oznaczone "wkrótce". */

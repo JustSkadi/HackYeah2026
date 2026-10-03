@@ -3,6 +3,7 @@ import { MoreVertical, Pencil, Phone, Plus, Trash2, UserPlus } from 'lucide-reac
 import { useData } from '../../lib/data'
 import { db } from '../../lib/db'
 import type { Doctor } from '../../lib/types'
+import { PageTitle } from '../../components/ui'
 
 export default function Doctors() {
   const { snap } = useData()
@@ -10,6 +11,7 @@ export default function Doctors() {
 
   return (
     <div className="flex flex-col gap-4">
+      <PageTitle title="Lekarze" />
       {adding ? (
         <DoctorForm title="Nowy lekarz" onDone={() => setAdding(false)} />
       ) : (

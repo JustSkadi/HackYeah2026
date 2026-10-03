@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { parseISO } from 'date-fns'
-import { Download, Loader2, RefreshCw, ShoppingCart } from 'lucide-react'
+import { Download, Loader2, Plus, RefreshCw, ShoppingCart } from 'lucide-react'
+import MedicationForm from '../../components/MedicationForm'
 import { useData } from '../../lib/data'
 import { buyOnlineUrl, config } from '../../lib/config'
 import { forecastStock } from '../../lib/stock'
@@ -15,6 +16,7 @@ export default function Medications() {
   const { snap, current, age, todayDoses } = useData()
   const [importing, setImporting] = useState(false)
   const [allStock, setAllStock] = useState(false)
+  const [adding, setAdding] = useState(false)
 
   const runImport = async () => {
     setImporting(true)
@@ -68,7 +70,7 @@ export default function Medications() {
                         )}
                       </div>
                       <p className="text-sm text-muted">
-                        {med.active_substance} · {med.dose_label} o {med.times.join(', ')}
+                        {[med.active_substance, `${med.dose_label} o ${med.times.join(', ')}`].filter(Boolean).join(' · ')}
                       </p>
                     </div>
                   </div>
@@ -104,6 +106,22 @@ export default function Medications() {
           </button>
         </>
       )}
+
+      {!importing &&
+        (adding ? (
+          <Section title="Nowy lek">
+            <div className="card">
+              <MedicationForm onDone={() => setAdding(false)} />
+            </div>
+          </Section>
+        ) : (
+          <button
+            onClick={() => setAdding(true)}
+            className="flex items-center justify-center gap-2 rounded-[10px] border-2 border-primary py-3 font-semibold text-primary"
+          >
+            <Plus size={18} /> Dodaj lek ręcznie
+          </button>
+        ))}
     </div>
   )
 }

@@ -1,4 +1,4 @@
-import { addMinutes, format, parseISO } from 'date-fns'
+import { addMinutes, format, isSameDay, parseISO } from 'date-fns'
 import type { DoseEvent, Medication } from './types'
 
 export type DoseStatus = 'taken' | 'upcoming' | 'due' | 'missed'
@@ -11,6 +11,16 @@ export function scheduledTimesForDay(med: Medication, day: Date): string[] {
     d.setHours(h, m, 0, 0)
     return d.toISOString()
   })
+}
+
+/**
+ * Lek dodany ręcznie dzisiaj nie ma dawek z godzin, które już minęły
+ * (inaczej wieczorem dodany lek od razu miałby "spóźnioną" poranną dawkę).
+ */
+export function isDoseApplicable(med: Medication, iso: string, current: Date): boolean {
+  if (med.source !== 'manual') return true
+  const at = parseISO(iso)
+  return !(isSameDay(at, parseISO(med.purchase_date)) && at < current)
 }
 
 export function doseStatus(dose: DoseEvent, current: Date, graceMinutes: number): DoseStatus {

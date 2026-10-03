@@ -3,7 +3,7 @@ import { differenceInYears, isSameDay, parseISO } from 'date-fns'
 import { db, type Snapshot } from './db'
 import { now, setClockOffset } from './clock'
 import { config } from './config'
-import { doseStatus, scheduledTimesForDay, type DoseStatus } from './doses'
+import { doseStatus, isDoseApplicable, scheduledTimesForDay, type DoseStatus } from './doses'
 import type { DoseEvent, Medication } from './types'
 
 export interface TodayDose {
@@ -56,6 +56,7 @@ export function DataProvider({ children }: { children: ReactNode }) {
     if (!snap) return
     const missing = snap.medications.flatMap((med) =>
       scheduledTimesForDay(med, current)
+        .filter((iso) => isDoseApplicable(med, iso, current))
         .filter((iso) => !snap.doses.some((d) => d.medication_id === med.id && sameInstant(d.scheduled_at, iso)))
         .map((iso) => ({ medication_id: med.id, scheduled_at: iso })),
     )

@@ -1,11 +1,10 @@
 import { Link } from 'react-router-dom'
-import { Check, Phone } from 'lucide-react'
+import { Check, Phone, Plus } from 'lucide-react'
 import { useData, type TodayDose } from '../../lib/data'
 import { db } from '../../lib/db'
 import { now } from '../../lib/clock'
 import { canConfirm, hhmm } from '../../lib/doses'
-import { fmtDay, fmtTime } from '../../lib/format'
-import { Logo } from '../../components/ui'
+import { Logo, StatusBar } from '../../components/ui'
 
 export default function SeniorToday() {
   const { todayDoses, current, snap } = useData()
@@ -14,23 +13,27 @@ export default function SeniorToday() {
 
   return (
     <main className="mx-auto flex min-h-full max-w-md flex-col bg-white pb-36 text-[22px]">
-      <header className="flex flex-col items-center gap-2 px-5 pb-2 pt-6">
+      <StatusBar />
+      <header className="flex justify-center px-5 pb-2 pt-3">
         <Logo className="text-[34px]" />
-        <p className="text-xl text-navy">
-          <span className="first-letter:uppercase inline-block">{fmtDay(current)}</span> · <b className="tabular-nums">{fmtTime(current)}</b>
-        </p>
       </header>
 
       <section className="flex flex-col gap-4 px-5 pt-4">
         <h1 className="text-[28px] font-bold text-navy">Lekarstwa na dziś</h1>
         {todayDoses.length === 0 && (
           <p className="rounded-[10px] bg-primary-soft/40 p-6 text-center text-muted">
-            {snap.medications.length === 0 ? 'Opiekun jeszcze nie dodał leków.' : 'Na dziś nie ma więcej leków.'}
+            {snap.medications.length === 0 ? 'Nie ma jeszcze żadnych leków.' : 'Na dziś nie ma więcej leków.'}
           </p>
         )}
         {ordered.map((t) => (
           <DoseCard key={t.dose.id} item={t} current={current} />
         ))}
+        <Link
+          to="/senior/dodaj-lek"
+          className="flex h-16 items-center justify-center gap-3 rounded-[10px] border-2 border-primary text-2xl font-bold text-primary active:scale-[0.98]"
+        >
+          <Plus size={30} strokeWidth={2.5} /> Dodaj lek
+        </Link>
       </section>
 
       <div className="fixed inset-x-0 bottom-0 mx-auto max-w-md bg-linear-to-t from-white from-70% to-white/0 px-5 pb-4 pt-6">

@@ -6,8 +6,8 @@ import { db } from '../../lib/db'
 import { now } from '../../lib/clock'
 import { config } from '../../lib/config'
 import { playAlert } from '../../lib/alert'
-import { firstName, fmtTime } from '../../lib/format'
-import { Logo } from '../../components/ui'
+import { firstName } from '../../lib/format'
+import { Logo, StatusBar } from '../../components/ui'
 
 // Lekarze są dostępni z kafelka na Pulpicie / w Lekach (układ z Figmy)
 const nav = [
@@ -18,17 +18,15 @@ const nav = [
 ]
 
 export default function CaregiverLayout() {
-  const { snap, missed, current } = useData()
+  const { snap, missed } = useData()
   const help = snap.helpRequests[0]
   useAlertSound(snap.helpRequests.length + missed.length)
 
   return (
     <div className="mx-auto flex min-h-full max-w-md flex-col bg-white pb-28">
-      <header className="sticky top-0 z-10 flex flex-col items-center gap-1 bg-white/95 px-4 pb-3 pt-5 backdrop-blur">
-        <Logo />
-        <p className="text-xs text-muted">
-          Opiekun · {snap.senior?.name ?? 'Senior'} · <span className="tabular-nums">{fmtTime(current)}</span>
-        </p>
+      <header className="sticky top-0 z-10 flex flex-col items-center bg-white/95 pb-4 backdrop-blur">
+        <StatusBar />
+        <Logo className="mt-2 text-[28px]" />
       </header>
 
       <main className="flex-1 px-5 pt-2">
