@@ -1,0 +1,40 @@
+@import "tailwindcss";
+
+/* Paleta: biel + https://colorhunt.co/palette/2c5ead1591dc4bb8fac4e2f5 + #193258 */
+@theme {
+  --color-navy: #193258;
+  --color-primary: #2c5ead;
+  --color-accent: #1591dc;
+  --color-sky: #4bb8fa;
+  --color-primary-soft: #c4e2f5;
+  --color-ink: #193258;
+  --color-muted: color-mix(in srgb, #193258 65%, white);
+
+  /* statusy (alerty, potwierdzenia) - zostają semantyczne */
+  --color-success: #15803d;
+  --color-success-soft: #dcfce7;
+  --color-warning: #b45309;
+  --color-warning-soft: #fef3c7;
+  --color-danger: #b91c1c;
+  --color-danger-soft: #fee2e2;
+
+  --font-sans: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-logo: "Marck Script", cursive;
+}
+
+/* Tailwind v4 domyślnie daje ramkom currentColor - wracamy do jasnego odcienia palety */
+@layer base {
+  *, ::before, ::after { border-color: color-mix(in srgb, #c4e2f5 70%, white); }
+}
+
+@layer components {
+  /* karta treści - odpowiednik szarych prostokątów 297x92 z Figmy */
+  .card { @apply rounded-[10px] border bg-white p-4 shadow-sm; }
+}
+
+html, body, #root { height: 100%; }
+
+/* niewidoczne paski przewijania (przewijanie działa normalnie) */
+* { scrollbar-width: none; -ms-overflow-style: none; }
+*::-webkit-scrollbar { display: none; }
+body { background: #ffffff; color: var(--color-ink); font-family: var(--font-sans); -webkit-tap-highlight-color: transparent; }

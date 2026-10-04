@@ -1,0 +1,9 @@
+{
+  "name": "MySenior",
+  "short_name": "MySenior",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#2c5ead",
+  "icons": [{ "src": "/icon.svg", "sizes": "any", "type": "image/svg+xml" }]
+}

@@ -1,0 +1,98 @@
+{
+  "_note": "Dane FIKCYJNE na potrzeby demo - skierowania, badania i dokumenty 'z IKP'. days_ago liczone od dzisiaj (zegar demo).",
+  "referrals": [
+    {
+      "id": "ref-1",
+      "title": "Poradnia okulistyczna",
+      "reason": "Kontrola dna oka (cukrzyca)",
+      "doctor": "dr Anna Nowak",
+      "issued_days_ago": 12,
+      "valid_days": 365,
+      "code": "4821",
+      "status": "do_realizacji"
+    },
+    {
+      "id": "ref-2",
+      "title": "Badanie echo serca",
+      "reason": "Kontrola po zmianie leczenia",
+      "doctor": "dr Piotr Wiśniewski",
+      "issued_days_ago": 30,
+      "valid_days": 365,
+      "code": "1937",
+      "status": "zarejestrowane"
+    },
+    {
+      "id": "ref-3",
+      "title": "Rehabilitacja ambulatoryjna",
+      "reason": "Bóle kręgosłupa lędźwiowego",
+      "doctor": "dr Anna Nowak",
+      "issued_days_ago": 140,
+      "valid_days": 365,
+      "code": "5502",
+      "status": "zrealizowane"
+    }
+  ],
+  "tests": [
+    {
+      "id": "test-1",
+      "name": "Hemoglobina glikowana (HbA1c)",
+      "lab": "Laboratorium Diagnostyka, Kraków",
+      "days_ago": 6,
+      "results": [{ "param": "HbA1c", "value": "7,4", "unit": "%", "norm": "< 7,0", "flag": "high" }]
+    },
+    {
+      "id": "test-2",
+      "name": "Lipidogram",
+      "lab": "Laboratorium Diagnostyka, Kraków",
+      "days_ago": 6,
+      "results": [
+        { "param": "Cholesterol całkowity", "value": "182", "unit": "mg/dl", "norm": "< 190", "flag": "ok" },
+        { "param": "LDL", "value": "96", "unit": "mg/dl", "norm": "< 100", "flag": "ok" },
+        { "param": "Trójglicerydy", "value": "171", "unit": "mg/dl", "norm": "< 150", "flag": "high" }
+      ]
+    },
+    {
+      "id": "test-3",
+      "name": "Morfologia krwi",
+      "lab": "Laboratorium Diagnostyka, Kraków",
+      "days_ago": 6,
+      "results": [
+        { "param": "Hemoglobina", "value": "13,1", "unit": "g/dl", "norm": "12,0-16,0", "flag": "ok" },
+        { "param": "Leukocyty", "value": "6,2", "unit": "tys/µl", "norm": "4,0-10,0", "flag": "ok" }
+      ]
+    },
+    {
+      "id": "test-4",
+      "name": "EKG spoczynkowe",
+      "lab": "Poradnia Kardiologiczna, Kraków",
+      "days_ago": 45,
+      "results": [{ "param": "Opis", "value": "Rytm zatokowy miarowy, bez zmian ostrych", "unit": "", "norm": "", "flag": "ok" }]
+    }
+  ],
+  "documents": [
+    {
+      "id": "doc-1",
+      "type": "Zalecenia lekarskie",
+      "title": "Zalecenia po wizycie kardiologicznej",
+      "author": "dr Piotr Wiśniewski",
+      "days_ago": 30,
+      "summary": "Kontynuować Bisocard 5 i Polpril 5. Pomiar ciśnienia 2x dziennie, notować wyniki. Kontrola za 2 miesiące z wynikiem echa serca."
+    },
+    {
+      "id": "doc-2",
+      "type": "Karta informacyjna",
+      "title": "Karta informacyjna leczenia szpitalnego",
+      "author": "Szpital Miejski, Oddział Chorób Wewnętrznych",
+      "days_ago": 210,
+      "summary": "Hospitalizacja z powodu zaostrzenia nadciśnienia tętniczego. Wypisana w stanie dobrym, zmodyfikowano leczenie hipotensyjne."
+    },
+    {
+      "id": "doc-3",
+      "type": "Zaświadczenie",
+      "title": "Zaświadczenie o stanie zdrowia",
+      "author": "dr Anna Nowak",
+      "days_ago": 90,
+      "summary": "Zaświadczenie do wniosku o usługi opiekuńcze. Pacjentka wymaga pomocy w codziennych czynnościach w ograniczonym zakresie."
+    }
+  ]
+}
