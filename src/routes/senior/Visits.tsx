@@ -11,7 +11,7 @@ export default function SeniorVisits() {
   const visits = snap.appointments.filter((a) => parseISO(a.starts_at) > current).sort((a, b) => a.starts_at.localeCompare(b.starts_at))
 
   return (
-    <SeniorShell title="Moje wizyty">
+    <SeniorShell title="Wizyty">
       {visits.length === 0 && <SeniorEmpty text="Nie ma zaplanowanych wizyt." />}
       {visits.map((a) => {
         const doctor = snap.doctors.find((d) => d.id === a.doctor_id)
@@ -26,7 +26,7 @@ export default function SeniorVisits() {
             {a.note && <p className="mt-3 rounded-[10px] bg-primary-soft/40 p-3">{a.note}</p>}
             {doctor && (
               <button onClick={() => call({ name: doctor.name, number: doctor.phone })} className="mt-4 flex h-16 w-full items-center justify-center gap-2 rounded-[10px] bg-primary px-4 text-xl font-bold text-white">
-                <Phone size={24} /> Zadzwoń
+                <Phone size={24} /> Zadzwoń do przychodni
               </button>
             )}
           </article>

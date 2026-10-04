@@ -27,7 +27,7 @@ export default function ImportOrAdd({ title, text }: { title: string; text: stri
         className="flex w-full items-center justify-center gap-2 rounded-[10px] bg-primary px-5 py-2.5 font-semibold text-white disabled:opacity-70"
       >
         {importing ? <Loader2 size={18} className="animate-spin" /> : <Download size={18} />}
-        {importing ? 'Łączenie z IKP…' : 'Importuj z IKP'}
+        {importing ? 'Łączenie z Internetowym Kontem Pacjenta…' : 'Importuj z IKP'}
       </button>
       {!importing && (
         <Link to="/opiekun/leki?dodaj=1" className="flex w-full items-center justify-center gap-2 rounded-[10px] border-2 border-primary px-5 py-2 font-semibold text-primary">

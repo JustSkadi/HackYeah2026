@@ -8,7 +8,7 @@ export default function SeniorAddMedication() {
     <main className="mx-auto flex min-h-full max-w-md flex-col bg-white pb-8 text-[22px]">
       <StatusBar />
       <div className="flex flex-col gap-6 px-5 pt-4">
-        <h1 className="text-[28px] font-bold text-navy">Dodaj lek</h1>
+        <h1 className="text-[28px] font-bold text-navy">Dodaj lek ręcznie</h1>
         <MedicationForm large onDone={() => navigate('/senior')} />
       </div>
     </main>

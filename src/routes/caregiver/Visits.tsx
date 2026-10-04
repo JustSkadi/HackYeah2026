@@ -13,7 +13,7 @@ export default function Visits() {
 
   return (
     <div className="flex flex-col gap-4">
-      <PageTitle title="Nadchodzące wizyty" subtitle={`${visits.length} zaplanowanych`} />
+      <PageTitle title="Wizyty" subtitle={`Nadchodzące: ${visits.length}`} />
       {visits.length === 0 && <p className="card text-center text-muted">Brak zaplanowanych wizyt.</p>}
       {visits.map((a) => {
         const doctor = snap.doctors.find((d) => d.id === a.doctor_id)

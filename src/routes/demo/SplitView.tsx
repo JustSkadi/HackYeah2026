@@ -34,7 +34,7 @@ const PATHS: Path[] = [
   {
     title: 'Senior dodaje lek',
     time: '07:30',
-    steps: ['Senior: „Dodaj lek” → nazwa, „Rano”', 'Senior: lek na liście na dziś', 'Opiekun: Leki → Dzisiaj, nowy lek o 08:00'],
+    steps: ['Senior: „Dodaj lek ręcznie” → nazwa, „Rano”', 'Senior: lek na liście na dziś', 'Opiekun: Leki → Dzisiaj, nowy lek o 08:00'],
   },
   {
     title: 'Umawianie wizyty',

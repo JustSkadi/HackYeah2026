@@ -23,7 +23,7 @@ export default function SeniorCalendar() {
   const events = buildEvents(snap, current, days[0], days[DAYS - 1]).filter((e) => e.kind !== 'runout')
 
   return (
-    <SeniorShell title="Mój kalendarz">
+    <SeniorShell title="Kalendarz">
       {events.length === 0 && <SeniorEmpty text="W kalendarzu nic jeszcze nie ma." />}
       {days.map((day) => {
         const dayEvents = eventsOnDay(events, day).sort((a, b) => Number(b.allDay) - Number(a.allDay) || a.start.getTime() - b.start.getTime())

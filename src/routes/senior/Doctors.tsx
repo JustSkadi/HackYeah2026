@@ -8,7 +8,7 @@ export default function SeniorDoctors() {
   const { snap } = useData()
 
   return (
-    <SeniorShell title="Moi lekarze">
+    <SeniorShell title="Lekarze">
       {snap.doctors.length === 0 && <SeniorEmpty text="Nie ma jeszcze lekarzy." />}
       {snap.doctors.map((d) => (
         <article key={d.id} className="rounded-[10px] border-4 border-primary-soft p-5">
@@ -16,7 +16,7 @@ export default function SeniorDoctors() {
           {d.specialty && <p className="text-muted">{d.specialty}</p>}
           {d.clinic && <p className="mt-1 text-lg text-muted">{d.clinic}</p>}
           <button onClick={() => call({ name: d.name, number: d.phone })} className="mt-4 flex h-16 w-full items-center justify-center gap-2 rounded-[10px] bg-primary px-4 text-xl font-bold text-white">
-            <Phone size={24} /> Zadzwoń
+            <Phone size={24} /> Zadzwoń i umów
           </button>
         </article>
       ))}

@@ -105,14 +105,14 @@ export default function Medications() {
           </Section>
 
           <button onClick={runImport} className="flex items-center justify-center gap-2 text-sm font-medium text-accent">
-            <RefreshCw size={15} /> Odśwież dane z IKP
+            <RefreshCw size={15} /> Importuj z IKP
           </button>
         </>
       )}
 
       {!importing &&
         (adding ? (
-          <Section title="Nowy lek">
+          <Section title="Dodaj lek ręcznie">
             <div className="card">
               <MedicationForm onDone={() => setAdding(false)} />
             </div>

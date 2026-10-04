@@ -1,9 +1,11 @@
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { CalendarDays, Check, Microscope, Plus, Stethoscope, UserRound } from 'lucide-react'
+import { CalendarDays, Check, Download, Loader2, Microscope, Plus, Stethoscope, UserRound } from 'lucide-react'
 import { useData, type TodayDose } from '../../lib/data'
 import { db } from '../../lib/db'
 import { now } from '../../lib/clock'
 import { canConfirm, hhmm } from '../../lib/doses'
+import { importFromIkp } from '../../lib/ikp'
 import { Logo, StatusBar } from '../../components/ui'
 import { PomocBar } from '../../components/senior/SeniorShell'
 
@@ -18,6 +20,16 @@ export default function SeniorToday() {
   const { todayDoses, current, snap } = useData()
   // wzięte leki spadają na dół listy (sort stabilny - reszta zostaje w kolejności godzin)
   const ordered = [...todayDoses].sort((a, b) => Number(a.status === 'taken') - Number(b.status === 'taken'))
+  const [importing, setImporting] = useState(false)
+
+  const runImport = async () => {
+    setImporting(true)
+    try {
+      await importFromIkp()
+    } finally {
+      setImporting(false)
+    }
+  }
 
   return (
     <main className="mx-auto flex min-h-full max-w-md flex-col bg-white pb-36 text-[22px]">
@@ -52,10 +64,18 @@ export default function SeniorToday() {
         ))}
         <Link
           to="/senior/dodaj-lek"
-          className="flex h-16 items-center justify-center gap-3 rounded-[10px] border-2 border-primary text-2xl font-bold text-primary active:scale-[0.98]"
+          className="flex min-h-16 items-center justify-center gap-3 rounded-[10px] border-2 border-primary px-4 py-3 text-2xl font-bold text-primary active:scale-[0.98]"
         >
-          <Plus size={30} strokeWidth={2.5} /> Dodaj lek
+          <Plus size={30} strokeWidth={2.5} /> Dodaj lek ręcznie
         </Link>
+        <button
+          onClick={runImport}
+          disabled={importing}
+          className="flex min-h-16 items-center justify-center gap-3 rounded-[10px] bg-primary px-4 py-3 text-2xl font-bold text-white active:scale-[0.98] disabled:opacity-80"
+        >
+          {importing ? <Loader2 size={30} className="shrink-0 animate-spin" /> : <Download size={30} className="shrink-0" />}
+          {importing ? 'Łączenie z Internetowym Kontem Pacjenta…' : 'Importuj z IKP'}
+        </button>
       </section>
 
       <PomocBar />

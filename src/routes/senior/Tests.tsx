@@ -9,7 +9,7 @@ export default function SeniorTests() {
   const { snap, current } = useData()
 
   return (
-    <SeniorShell title="Moje badania">
+    <SeniorShell title="Badania">
       <p className="flex items-start gap-3 rounded-[10px] border-4 border-primary bg-primary-soft/40 p-4 text-xl font-bold">
         <Stethoscope size={30} className="mt-0.5 shrink-0 text-primary" />
         Wyniki zawsze skonsultuj z lekarzem.
